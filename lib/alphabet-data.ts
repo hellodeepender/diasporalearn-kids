@@ -22,7 +22,7 @@ const ARMENIAN_LETTERS: LetterData[] = [
   { letter: "Թ", letterLower: "թ", name: "To", sound: "t", exampleWord: "թիտեռ", exampleWordEn: "butterfly", emoji: "🦋" },
   { letter: "Ժ", letterLower: "ժ", name: "Zhe", sound: "zh", exampleWord: "ժամ", exampleWordEn: "clock", emoji: "⏰" },
   { letter: "Ի", letterLower: "ի", name: "Ini", sound: "ee", exampleWord: "ինը", exampleWordEn: "nine", emoji: "9️⃣" },
-  { letter: "Լ", letterLower: "լ", name: "Liwn", sound: "l", exampleWord: "լուսին", exampleWordEn: "moon", emoji: "🌙" },
+  { letter: "Լ", letterLower: "լ", name: "Lyun", sound: "l", exampleWord: "լուսին", exampleWordEn: "moon", emoji: "🌙" },
   { letter: "Խ", letterLower: "խ", name: "Kheh", sound: "kh", exampleWord: "խնձոր", exampleWordEn: "apple", emoji: "🍎" },
   { letter: "Ծ", letterLower: "ծ", name: "Tsa", sound: "ts", exampleWord: "ծառ", exampleWordEn: "tree", emoji: "🌳" },
   { letter: "Կ", letterLower: "կ", name: "Ken", sound: "k", exampleWord: "կատու", exampleWordEn: "cat", emoji: "🐱" },
@@ -31,8 +31,8 @@ const ARMENIAN_LETTERS: LetterData[] = [
   { letter: "Ղ", letterLower: "ղ", name: "Ghad", sound: "gh", exampleWord: "ղարուն", exampleWordEn: "spring", emoji: "🌼" },
   { letter: "Ճ", letterLower: "ճ", name: "Cheh", sound: "tch", exampleWord: "ճուր", exampleWordEn: "water", emoji: "💧" },
   { letter: "Մ", letterLower: "մ", name: "Men", sound: "m", exampleWord: "մամա", exampleWordEn: "mother", emoji: "👩" },
-  { letter: "Յ", letterLower: "յ", name: "Yi", sound: "y", exampleWord: "յոթ", exampleWordEn: "seven", emoji: "7️⃣" },
-  { letter: "Ն", letterLower: "ն", name: "Now", sound: "n", exampleWord: "նավ", exampleWordEn: "ship", emoji: "🚢" },
+  { letter: "Յ", letterLower: "յ", name: "Hee", sound: "y", exampleWord: "յոթ", exampleWordEn: "seven", emoji: "7️⃣" },
+  { letter: "Ն", letterLower: "ն", name: "Noo", sound: "n", exampleWord: "նավ", exampleWordEn: "ship", emoji: "🚢" },
   { letter: "Շ", letterLower: "շ", name: "Sha", sound: "sh", exampleWord: "շուն", exampleWordEn: "dog", emoji: "🐕" },
   { letter: "Ո", letterLower: "ո", name: "Vo", sound: "v", exampleWord: "ոսկի", exampleWordEn: "gold", emoji: "✨" },
   { letter: "Չ", letterLower: "չ", name: "Cha", sound: "ch", exampleWord: "չանապարհ", exampleWordEn: "road", emoji: "🛤️" },
@@ -41,11 +41,11 @@ const ARMENIAN_LETTERS: LetterData[] = [
   { letter: "Ռ", letterLower: "ռ", name: "Ra", sound: "r", exampleWord: "ռետ", exampleWordEn: "rubber", emoji: "🧹" },
   { letter: "Ս", letterLower: "ս", name: "Seh", sound: "s", exampleWord: "սիրտ", exampleWordEn: "heart", emoji: "❤️" },
   { letter: "Վ", letterLower: "վ", name: "Vew", sound: "v", exampleWord: "վարդ", exampleWordEn: "rose", emoji: "🌹" },
-  { letter: "Տ", letterLower: "տ", name: "Tiwn", sound: "t", exampleWord: "տոն", exampleWordEn: "holiday", emoji: "🎉" },
+  { letter: "Տ", letterLower: "տ", name: "Tyun", sound: "t", exampleWord: "տոն", exampleWordEn: "holiday", emoji: "🎉" },
   { letter: "Ր", letterLower: "ր", name: "Reh", sound: "r", exampleWord: "րանգ", exampleWordEn: "color", emoji: "🎨" },
   { letter: "Ց", letterLower: "ց", name: "Tso", sound: "ts", exampleWord: "ցով", exampleWordEn: "sea", emoji: "🌊" },
-  { letter: "Ւ", letterLower: "ւ", name: "Wiwn", sound: "v", exampleWord: "ւրախ", exampleWordEn: "happy", emoji: "😀" },
-  { letter: "Փ", letterLower: "փ", name: "Piwr", sound: "p", exampleWord: "փիսիկ", exampleWordEn: "kitten", emoji: "😻" },
+  { letter: "Ւ", letterLower: "ւ", name: "Vyun", sound: "v", exampleWord: "ւրախ", exampleWordEn: "happy", emoji: "😀" },
+  { letter: "Փ", letterLower: "փ", name: "P'yur", sound: "p", exampleWord: "փիսիկ", exampleWordEn: "kitten", emoji: "😻" },
   { letter: "Ք", letterLower: "ք", name: "Keh", sound: "k", exampleWord: "քամի", exampleWordEn: "wind", emoji: "💨" },
   { letter: "Օ", letterLower: "օ", name: "Oh", sound: "o", exampleWord: "օդ", exampleWordEn: "air", emoji: "🌬️" },
   { letter: "Ֆ", letterLower: "ֆ", name: "Feh", sound: "f", exampleWord: "ֆիլ", exampleWordEn: "elephant", emoji: "🐘" },
@@ -80,33 +80,33 @@ const GREEK_LETTERS: LetterData[] = [
 
 const ARABIC_LETTERS: LetterData[] = [
   { letter: "أ", letterLower: "ا", name: "Alif", sound: "ah", exampleWord: "أرنب", exampleWordEn: "rabbit", emoji: "🐰" },
-  { letter: "ب", letterLower: "بـ", name: "Ba", sound: "b", exampleWord: "بيت", exampleWordEn: "house", emoji: "🏠" },
-  { letter: "ت", letterLower: "تـ", name: "Ta", sound: "t", exampleWord: "تفاح", exampleWordEn: "apple", emoji: "🍎" },
-  { letter: "ث", letterLower: "ثـ", name: "Tha", sound: "th", exampleWord: "ثعلب", exampleWordEn: "fox", emoji: "🦊" },
-  { letter: "ج", letterLower: "جـ", name: "Jim", sound: "j", exampleWord: "جمل", exampleWordEn: "camel", emoji: "🐫" },
-  { letter: "ح", letterLower: "حـ", name: "Ha", sound: "h", exampleWord: "حوت", exampleWordEn: "whale", emoji: "🐳" },
-  { letter: "خ", letterLower: "خـ", name: "Kha", sound: "kh", exampleWord: "خروف", exampleWordEn: "sheep", emoji: "🐑" },
+  { letter: "ب", letterLower: "ب", name: "Ba", sound: "b", exampleWord: "بيت", exampleWordEn: "house", emoji: "🏠" },
+  { letter: "ت", letterLower: "ت", name: "Ta", sound: "t", exampleWord: "تفاح", exampleWordEn: "apple", emoji: "🍎" },
+  { letter: "ث", letterLower: "ث", name: "Tha", sound: "th", exampleWord: "ثعلب", exampleWordEn: "fox", emoji: "🦊" },
+  { letter: "ج", letterLower: "ج", name: "Jim", sound: "j", exampleWord: "جمل", exampleWordEn: "camel", emoji: "🐫" },
+  { letter: "ح", letterLower: "ح", name: "Ha", sound: "h", exampleWord: "حوت", exampleWordEn: "whale", emoji: "🐳" },
+  { letter: "خ", letterLower: "خ", name: "Kha", sound: "kh", exampleWord: "خروف", exampleWordEn: "sheep", emoji: "🐑" },
   { letter: "د", letterLower: "د", name: "Dal", sound: "d", exampleWord: "دب", exampleWordEn: "bear", emoji: "🐻" },
   { letter: "ذ", letterLower: "ذ", name: "Dhal", sound: "dh", exampleWord: "ذهب", exampleWordEn: "gold", emoji: "✨" },
   { letter: "ر", letterLower: "ر", name: "Ra", sound: "r", exampleWord: "رمان", exampleWordEn: "pomegranate", emoji: "🍎" },
   { letter: "ز", letterLower: "ز", name: "Zay", sound: "z", exampleWord: "زهرة", exampleWordEn: "flower", emoji: "🌸" },
-  { letter: "س", letterLower: "سـ", name: "Sin", sound: "s", exampleWord: "سمكة", exampleWordEn: "fish", emoji: "🐟" },
-  { letter: "ش", letterLower: "شـ", name: "Shin", sound: "sh", exampleWord: "شمس", exampleWordEn: "sun", emoji: "☀️" },
-  { letter: "ص", letterLower: "صـ", name: "Sad", sound: "s", exampleWord: "صقر", exampleWordEn: "falcon", emoji: "🦅" },
-  { letter: "ض", letterLower: "ضـ", name: "Dad", sound: "d", exampleWord: "ضفدع", exampleWordEn: "frog", emoji: "🐸" },
-  { letter: "ط", letterLower: "طـ", name: "Taa", sound: "t", exampleWord: "طائر", exampleWordEn: "bird", emoji: "🐦" },
-  { letter: "ظ", letterLower: "ظـ", name: "Dhaa", sound: "dh", exampleWord: "ظرف", exampleWordEn: "envelope", emoji: "✉️" },
-  { letter: "ع", letterLower: "عـ", name: "Ain", sound: "a", exampleWord: "عنب", exampleWordEn: "grape", emoji: "🍇" },
-  { letter: "غ", letterLower: "غـ", name: "Ghain", sound: "gh", exampleWord: "غزال", exampleWordEn: "gazelle", emoji: "🦌" },
-  { letter: "ف", letterLower: "فـ", name: "Fa", sound: "f", exampleWord: "فراشة", exampleWordEn: "butterfly", emoji: "🦋" },
-  { letter: "ق", letterLower: "قـ", name: "Qaf", sound: "q", exampleWord: "قمر", exampleWordEn: "moon", emoji: "🌙" },
-  { letter: "ك", letterLower: "كـ", name: "Kaf", sound: "k", exampleWord: "كتاب", exampleWordEn: "book", emoji: "📖" },
-  { letter: "ل", letterLower: "لـ", name: "Lam", sound: "l", exampleWord: "ليمون", exampleWordEn: "lemon", emoji: "🍋" },
-  { letter: "م", letterLower: "مـ", name: "Mim", sound: "m", exampleWord: "موز", exampleWordEn: "banana", emoji: "🍌" },
-  { letter: "ن", letterLower: "نـ", name: "Nun", sound: "n", exampleWord: "نجمة", exampleWordEn: "star", emoji: "⭐" },
-  { letter: "ه", letterLower: "هـ", name: "Ha", sound: "h", exampleWord: "هدية", exampleWordEn: "gift", emoji: "🎁" },
+  { letter: "س", letterLower: "س", name: "Sin", sound: "s", exampleWord: "سمكة", exampleWordEn: "fish", emoji: "🐟" },
+  { letter: "ش", letterLower: "ش", name: "Shin", sound: "sh", exampleWord: "شمس", exampleWordEn: "sun", emoji: "☀️" },
+  { letter: "ص", letterLower: "ص", name: "Sad", sound: "s", exampleWord: "صقر", exampleWordEn: "falcon", emoji: "🦅" },
+  { letter: "ض", letterLower: "ض", name: "Dad", sound: "d", exampleWord: "ضفدع", exampleWordEn: "frog", emoji: "🐸" },
+  { letter: "ط", letterLower: "ط", name: "Taa", sound: "t", exampleWord: "طائر", exampleWordEn: "bird", emoji: "🐦" },
+  { letter: "ظ", letterLower: "ظ", name: "Dhaa", sound: "dh", exampleWord: "ظرف", exampleWordEn: "envelope", emoji: "✉️" },
+  { letter: "ع", letterLower: "ع", name: "Ain", sound: "a", exampleWord: "عنب", exampleWordEn: "grape", emoji: "🍇" },
+  { letter: "غ", letterLower: "غ", name: "Ghain", sound: "gh", exampleWord: "غزال", exampleWordEn: "gazelle", emoji: "🦌" },
+  { letter: "ف", letterLower: "ف", name: "Fa", sound: "f", exampleWord: "فراشة", exampleWordEn: "butterfly", emoji: "🦋" },
+  { letter: "ق", letterLower: "ق", name: "Qaf", sound: "q", exampleWord: "قمر", exampleWordEn: "moon", emoji: "🌙" },
+  { letter: "ك", letterLower: "ك", name: "Kaf", sound: "k", exampleWord: "كتاب", exampleWordEn: "book", emoji: "📖" },
+  { letter: "ل", letterLower: "ل", name: "Lam", sound: "l", exampleWord: "ليمون", exampleWordEn: "lemon", emoji: "🍋" },
+  { letter: "م", letterLower: "م", name: "Mim", sound: "m", exampleWord: "موز", exampleWordEn: "banana", emoji: "🍌" },
+  { letter: "ن", letterLower: "ن", name: "Nun", sound: "n", exampleWord: "نجمة", exampleWordEn: "star", emoji: "⭐" },
+  { letter: "ه", letterLower: "ه", name: "Ha", sound: "h", exampleWord: "هدية", exampleWordEn: "gift", emoji: "🎁" },
   { letter: "و", letterLower: "و", name: "Waw", sound: "w", exampleWord: "وردة", exampleWordEn: "rose", emoji: "🌹" },
-  { letter: "ي", letterLower: "يـ", name: "Ya", sound: "y", exampleWord: "يد", exampleWordEn: "hand", emoji: "✋" },
+  { letter: "ي", letterLower: "ي", name: "Ya", sound: "y", exampleWord: "يد", exampleWordEn: "hand", emoji: "✋" },
 ];
 
 export function getAlphabet(locale: Locale): LetterData[] {
@@ -114,5 +114,28 @@ export function getAlphabet(locale: Locale): LetterData[] {
     case "hy": return ARMENIAN_LETTERS;
     case "el": return GREEK_LETTERS;
     case "ar": return ARABIC_LETTERS;
+  }
+}
+
+// Dev-only verification: ensure each exampleWord starts with the correct letter
+if (__DEV__) {
+  const GREEK_ACCENTS: Record<string, string> = {
+    "ά": "α", "έ": "ε", "ή": "η", "ί": "ι", "ό": "ο", "ύ": "υ", "ώ": "ω",
+  };
+  const stripAccent = (ch: string) => GREEK_ACCENTS[ch] ?? ch;
+
+  for (const [locale, letters] of [
+    ["hy", ARMENIAN_LETTERS],
+    ["el", GREEK_LETTERS],
+    ["ar", ARABIC_LETTERS],
+  ] as const) {
+    for (const l of letters) {
+      const firstChar = stripAccent(l.exampleWord.charAt(0));
+      if (firstChar !== l.letterLower && firstChar !== l.letter) {
+        console.warn(
+          `[alphabet-data] ${locale} mismatch: "${l.letter}" example "${l.exampleWord}" starts with "${firstChar}"`
+        );
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -23,6 +23,7 @@ import { getAlphabet, type LetterData } from "../lib/alphabet-data";
 import { Ionicons } from "@expo/vector-icons";
 import { speakLetter, speakWord } from "../lib/speech";
 import { playSound } from "../lib/sounds";
+import { recordLetterViewed } from "../lib/progress";
 import type { Locale } from "../lib/colors";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -112,6 +113,12 @@ export default function AlphabetScreen() {
     []
   );
 
+  useEffect(() => {
+    if (alphabet.length > 0) {
+      recordLetterViewed(locale, alphabet[0].letter);
+    }
+  }, []);
+
   const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
   const getItemLayout = useCallback(
@@ -152,6 +159,7 @@ export default function AlphabetScreen() {
           if (index >= 0 && index < alphabet.length) {
             setCurrentIndex(index);
             playSound("tap");
+            recordLetterViewed(locale, alphabet[index].letter);
           }
         }}
         renderItem={({ item, index }) => (

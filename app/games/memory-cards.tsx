@@ -13,6 +13,7 @@ import { getAlphabet } from "../../lib/alphabet-data";
 import MascotImage from "../../components/MascotImage";
 import PressableScale from "../../components/PressableScale";
 import { playSound } from "../../lib/sounds";
+import { recordGameComplete } from "../../lib/progress";
 import { Ionicons } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -43,13 +44,13 @@ function buildCards(alphabet: ReturnType<typeof getAlphabet>): Card[] {
     cardPairs.push({
       id: `letter-${i}`,
       pairId: `pair-${i}`,
-      display: `${letter.letter} ${letter.letterLower}`,
+      display: letter.letter,
       type: "letter",
     });
     cardPairs.push({
-      id: `name-${i}`,
+      id: `word-${i}`,
       pairId: `pair-${i}`,
-      display: letter.name,
+      display: `${letter.emoji} ${letter.exampleWordEn}`,
       type: "name",
     });
   });
@@ -84,6 +85,12 @@ export default function MemoryCardsScreen() {
       setTimeout(() => setPhase("complete"), 500);
     }
   }, [allMatched]);
+
+  useEffect(() => {
+    if (phase === "complete") {
+      recordGameComplete(locale, 6, moves);
+    }
+  }, [phase]);
 
   const handleTap = useCallback(
     (cardId: string) => {
@@ -216,9 +223,11 @@ export default function MemoryCardsScreen() {
                     styles.cardText,
                     {
                       color: isMatched ? "#155724" : COLORS.brown[800],
-                      fontSize: card.type === "letter" ? 24 : 14,
+                      fontSize: card.type === "letter" ? 36 : 16,
                     },
                   ]}
+                  numberOfLines={2}
+                  adjustsFontSizeToFit
                 >
                   {card.display}
                 </Text>
@@ -236,7 +245,7 @@ export default function MemoryCardsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 50, paddingHorizontal: 20 },
+  container: { flex: 1, paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",

@@ -8,6 +8,7 @@ import MascotImage from "../../components/MascotImage";
 import PressableScale from "../../components/PressableScale";
 import { playSound } from "../../lib/sounds";
 import { speakLetter } from "../../lib/speech";
+import { recordGameComplete } from "../../lib/progress";
 import { Ionicons } from "@expo/vector-icons";
 
 const TOTAL_ROUNDS = 10;
@@ -61,6 +62,12 @@ export default function LetterQuizScreen() {
       speakLetter(currentLetter.letter, locale);
     }
   }, [round, phase]);
+
+  useEffect(() => {
+    if (phase === "complete") {
+      recordGameComplete(locale, score, rounds.length);
+    }
+  }, [phase]);
 
   useEffect(() => {
     const letter = round < rounds.length ? rounds[round] : null;
@@ -226,7 +233,7 @@ export default function LetterQuizScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 50, paddingHorizontal: 20 },
+  container: { flex: 1, paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
