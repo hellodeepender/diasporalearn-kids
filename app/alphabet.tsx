@@ -147,6 +147,13 @@ export default function AlphabetScreen() {
         getItemLayout={getItemLayout}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
+        onMomentumScrollEnd={(e) => {
+          const index = Math.round(e.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+          if (index >= 0 && index < alphabet.length) {
+            setCurrentIndex(index);
+            playSound("tap");
+          }
+        }}
         renderItem={({ item, index }) => (
           <LetterCard item={item} index={index} total={alphabet.length} colors={colors} locale={locale} />
         )}
@@ -220,7 +227,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 4,
     paddingHorizontal: 24,
-    paddingBottom: 50,
+    paddingBottom: 64,
     paddingTop: 8,
   },
   dot: { width: 6, height: 6, borderRadius: 3 },

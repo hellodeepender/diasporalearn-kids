@@ -8,21 +8,27 @@ const LANGUAGE_MAP: Record<string, string> = {
 };
 
 export function speakLetter(text: string, locale: Locale) {
-  const language = LANGUAGE_MAP[locale] ?? "en-US";
-  Speech.stop();
-  Speech.speak(text, {
-    language,
-    rate: 0.7,
-    pitch: 1.1,
-  });
+  try {
+    Speech.stop();
+    Speech.speak(text, {
+      language: LANGUAGE_MAP[locale] ?? "en-US",
+      rate: 0.7,
+      pitch: 1.1,
+    });
+  } catch {
+    // TTS not available — fail silently
+  }
 }
 
 export function speakWord(word: string, locale: Locale) {
-  const language = LANGUAGE_MAP[locale] ?? "en-US";
-  Speech.stop();
-  Speech.speak(word, {
-    language,
-    rate: 0.6,
-    pitch: 1.0,
-  });
+  try {
+    Speech.stop();
+    Speech.speak(word, {
+      language: LANGUAGE_MAP[locale] ?? "en-US",
+      rate: 0.6,
+      pitch: 1.0,
+    });
+  } catch {
+    // fail silently
+  }
 }

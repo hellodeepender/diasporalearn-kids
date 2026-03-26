@@ -1,72 +1,90 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import PressableScale from "../../components/PressableScale";
 import { useLocale } from "../../lib/locale";
-import { COLORS, getLocaleColors } from "../../lib/colors";
+import { COLORS } from "../../lib/colors";
+import MascotImage from "../../components/MascotImage";
+import PressableScale from "../../components/PressableScale";
 import { Ionicons } from "@expo/vector-icons";
 
 const GAMES = [
   {
-    id: "pop-the-letter",
-    title: "Pop the Letter",
-    subtitle: "Pop bubbles to find the right letter!",
-    icon: "water" as const,
-    color: "#7C4DFF",
-    bg: "#F3EDFF",
-    route: "/games/pop-the-letter" as const,
+    id: "letter-quiz",
+    title: "Letter Quiz",
+    subtitle: "Name the letter!",
+    emoji: "🎯",
+    route: "/games/letter-quiz" as const,
+    color: "#E74C3C",
+    bg: "#FFF0F0",
   },
   {
-    id: "letter-tracing",
-    title: "Letter Tracing",
-    subtitle: "Draw letters with your finger!",
-    icon: "pencil" as const,
-    color: "#FF6D00",
-    bg: "#FFF3E0",
-    route: "/games/letter-tracing" as const,
+    id: "match-picture",
+    title: "Match the Picture",
+    subtitle: "Find the starting letter!",
+    emoji: "🖼️",
+    route: "/games/match-picture" as const,
+    color: "#3498DB",
+    bg: "#F0F6FF",
+  },
+  {
+    id: "memory-cards",
+    title: "Memory Cards",
+    subtitle: "Match letter pairs!",
+    emoji: "🃏",
+    route: "/games/memory-cards" as const,
+    color: "#2ECC71",
+    bg: "#F0FFF4",
   },
 ];
 
-export default function GamesPickerScreen() {
-  const router = useRouter();
+export default function GamePicker() {
   const { locale } = useLocale();
+  const router = useRouter();
 
   if (!locale) {
     router.replace("/");
     return null;
   }
 
-  const colors = getLocaleColors(locale);
-
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: COLORS.warmWhite }}
+      style={[styles.container, { backgroundColor: COLORS.warmWhite }]}
       contentContainerStyle={styles.content}
     >
       <View style={styles.header}>
         <PressableScale onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color={COLORS.brown[600]} />
         </PressableScale>
-        <Text style={styles.title}>Play Games</Text>
-        <View style={{ width: 24 }} />
       </View>
 
-      <View style={styles.cards}>
-        {GAMES.map((game, i) => (
-          <Animated.View
-            key={game.id}
-            entering={FadeInDown.delay(100 + i * 120).springify()}
-          >
-            <PressableScale onPress={() => router.push(game.route)}>
-              <View style={[styles.card, { backgroundColor: game.bg, borderColor: game.color }]}>
-                <View style={[styles.iconCircle, { backgroundColor: game.color }]}>
-                  <Ionicons name={game.icon} size={32} color="white" />
-                </View>
-                <Text style={[styles.cardTitle, { color: game.color }]}>{game.title}</Text>
-                <Text style={styles.cardSub}>{game.subtitle}</Text>
+      <View style={styles.titleSection}>
+        <MascotImage locale={locale} pose="happy" size={100} />
+        <Text style={styles.title}>Play Games</Text>
+        <Text style={styles.subtitle}>Choose a game to play!</Text>
+      </View>
+
+      <View style={styles.games}>
+        {GAMES.map((game) => (
+          <PressableScale key={game.id} onPress={() => router.push(game.route)}>
+            <View
+              style={[
+                styles.gameCard,
+                { backgroundColor: game.bg, borderColor: game.color },
+              ]}
+            >
+              <Text style={styles.gameEmoji}>{game.emoji}</Text>
+              <View style={styles.gameText}>
+                <Text style={[styles.gameTitle, { color: game.color }]}>
+                  {game.title}
+                </Text>
+                <Text style={styles.gameSub}>{game.subtitle}</Text>
               </View>
-            </PressableScale>
-          </Animated.View>
+              <Ionicons
+                name="chevron-forward"
+                size={24}
+                color={COLORS.brown[300]}
+              />
+            </View>
+          </PressableScale>
         ))}
       </View>
     </ScrollView>
@@ -74,30 +92,28 @@ export default function GamesPickerScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 40 },
-  header: {
+  container: { flex: 1 },
+  content: { paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 },
+  header: { marginBottom: 8 },
+  titleSection: { alignItems: "center", marginBottom: 28 },
+  title: {
+    fontSize: 28,
+    fontWeight: "700",
+    color: COLORS.brown[800],
+    marginTop: 12,
+  },
+  subtitle: { fontSize: 16, color: COLORS.brown[400], marginTop: 4 },
+  games: { gap: 14 },
+  gameCard: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 28,
-  },
-  title: { fontSize: 24, fontWeight: "700", color: COLORS.brown[800] },
-  cards: { gap: 16 },
-  card: {
-    borderRadius: 20,
     borderWidth: 2,
-    padding: 24,
-    alignItems: "center",
-    gap: 8,
+    borderRadius: 20,
+    padding: 18,
+    gap: 14,
   },
-  iconCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 4,
-  },
-  cardTitle: { fontSize: 20, fontWeight: "700" },
-  cardSub: { fontSize: 14, color: COLORS.brown[400], textAlign: "center" },
+  gameEmoji: { fontSize: 36 },
+  gameText: { flex: 1 },
+  gameTitle: { fontSize: 20, fontWeight: "700" },
+  gameSub: { fontSize: 13, color: COLORS.brown[400], marginTop: 2 },
 });

@@ -34,11 +34,11 @@ const ARMENIAN_LETTERS: LetterData[] = [
   { letter: "Յ", letterLower: "յ", name: "Yi", sound: "y", exampleWord: "յոթ", exampleWordEn: "seven", emoji: "7️⃣" },
   { letter: "Ն", letterLower: "ն", name: "Now", sound: "n", exampleWord: "նավ", exampleWordEn: "ship", emoji: "🚢" },
   { letter: "Շ", letterLower: "շ", name: "Sha", sound: "sh", exampleWord: "շուն", exampleWordEn: "dog", emoji: "🐕" },
-  { letter: "Ո", letterLower: "ո", name: "Vo", sound: "v", exampleWord: "վեց", exampleWordEn: "six", emoji: "6️⃣" },
+  { letter: "Ո", letterLower: "ո", name: "Vo", sound: "v", exampleWord: "ոսկի", exampleWordEn: "gold", emoji: "✨" },
   { letter: "Չ", letterLower: "չ", name: "Cha", sound: "ch", exampleWord: "չանապարհ", exampleWordEn: "road", emoji: "🛤️" },
   { letter: "Պ", letterLower: "պ", name: "Peh", sound: "p", exampleWord: "պտուղ", exampleWordEn: "fruit", emoji: "🍑" },
   { letter: "Ջ", letterLower: "ջ", name: "Jheh", sound: "j", exampleWord: "ջերմ", exampleWordEn: "warm", emoji: "☀️" },
-  { letter: "Ռ", letterLower: "ռ", name: "Ra", sound: "r", exampleWord: "ռետ", exampleWordEn: "river", emoji: "🏞️" },
+  { letter: "Ռ", letterLower: "ռ", name: "Ra", sound: "r", exampleWord: "ռետ", exampleWordEn: "rubber", emoji: "🧹" },
   { letter: "Ս", letterLower: "ս", name: "Seh", sound: "s", exampleWord: "սիրտ", exampleWordEn: "heart", emoji: "❤️" },
   { letter: "Վ", letterLower: "վ", name: "Vew", sound: "v", exampleWord: "վարդ", exampleWordEn: "rose", emoji: "🌹" },
   { letter: "Տ", letterLower: "տ", name: "Tiwn", sound: "t", exampleWord: "տոն", exampleWordEn: "holiday", emoji: "🎉" },
@@ -48,7 +48,7 @@ const ARMENIAN_LETTERS: LetterData[] = [
   { letter: "Փ", letterLower: "փ", name: "Piwr", sound: "p", exampleWord: "փիսիկ", exampleWordEn: "kitten", emoji: "😻" },
   { letter: "Ք", letterLower: "ք", name: "Keh", sound: "k", exampleWord: "քամի", exampleWordEn: "wind", emoji: "💨" },
   { letter: "Օ", letterLower: "օ", name: "Oh", sound: "o", exampleWord: "օդ", exampleWordEn: "air", emoji: "🌬️" },
-  { letter: "Ֆ", letterLower: "ֆ", name: "Feh", sound: "f", exampleWord: "ֆիղ", exampleWordEn: "elephant", emoji: "🐘" },
+  { letter: "Ֆ", letterLower: "ֆ", name: "Feh", sound: "f", exampleWord: "ֆիլ", exampleWordEn: "elephant", emoji: "🐘" },
 ];
 
 const GREEK_LETTERS: LetterData[] = [

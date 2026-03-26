@@ -10,20 +10,26 @@ const SOUND_FILES = {
 type SoundName = keyof typeof SOUND_FILES;
 
 const loadedSounds: Partial<Record<SoundName, Audio.Sound>> = {};
+let initialized = false;
 
 export async function preloadSounds() {
+  if (initialized) return;
   try {
     await Audio.setAudioModeAsync({
       playsInSilentModeIOS: true,
       staysActiveInBackground: false,
     });
-
     for (const [name, source] of Object.entries(SOUND_FILES)) {
-      const { sound } = await Audio.Sound.createAsync(source);
-      loadedSounds[name as SoundName] = sound;
+      try {
+        const { sound } = await Audio.Sound.createAsync(source);
+        loadedSounds[name as SoundName] = sound;
+      } catch {
+        // Individual sound failed — skip it
+      }
     }
+    initialized = true;
   } catch {
-    // Sounds are not critical — fail silently
+    // Audio not available — all sounds will silently fail
   }
 }
 
@@ -35,6 +41,6 @@ export async function playSound(name: SoundName) {
       await sound.playAsync();
     }
   } catch {
-    // fail silently
+    // fail silently — sounds are never critical
   }
 }

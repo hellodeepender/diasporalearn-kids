@@ -26,6 +26,7 @@ export default function RootLayout() {
           <Stack.Screen name="home" />
           <Stack.Screen name="alphabet" />
           <Stack.Screen name="progress" />
+          <Stack.Screen name="games" />
         </Stack>
       </LocaleProvider>
     </GestureHandlerRootView>
