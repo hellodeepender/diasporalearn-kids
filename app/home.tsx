@@ -44,7 +44,7 @@ export default function HomeScreen() {
       icon: "game-controller" as const,
       color: COLORS.gold,
       bg: "#FFFBF0",
-      route: "/games/letter-world" as const,
+      route: "/games" as const,
     },
     {
       id: "progress",
