@@ -8,6 +8,8 @@
     "userInterfaceStyle": "light",
     "scheme": "diasporalearn-kids",
     "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
       "backgroundColor": "#FFF8F0"
     },
     "assetBundlePatterns": [
