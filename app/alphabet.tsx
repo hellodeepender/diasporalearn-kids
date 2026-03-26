@@ -21,6 +21,9 @@ import { useLocale } from "../lib/locale";
 import { COLORS, getLocaleColors } from "../lib/colors";
 import { getAlphabet, type LetterData } from "../lib/alphabet-data";
 import { Ionicons } from "@expo/vector-icons";
+import { speakLetter, speakWord } from "../lib/speech";
+import { playSound } from "../lib/sounds";
+import type { Locale } from "../lib/colors";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -29,11 +32,13 @@ function LetterCard({
   index,
   total,
   colors,
+  locale,
 }: {
   item: LetterData;
   index: number;
   total: number;
   colors: ReturnType<typeof getLocaleColors>;
+  locale: Locale;
 }) {
   const emojiScale = useSharedValue(1);
 
@@ -48,6 +53,12 @@ function LetterCard({
   const emojiStyle = useAnimatedStyle(() => ({
     transform: [{ scale: emojiScale.value }],
   }));
+
+  const handleListen = () => {
+    playSound("tap");
+    speakLetter(item.letter, locale);
+    setTimeout(() => speakWord(item.exampleWord, locale), 1000);
+  };
 
   return (
     <View style={[styles.card, { width: SCREEN_WIDTH, backgroundColor: colors.bg }]} onLayout={onLayout}>
@@ -68,6 +79,11 @@ function LetterCard({
           <Text style={[styles.exampleWord, { color: colors.primary }]}>{item.exampleWord}</Text>
           <Text style={styles.exampleTranslation}> ({item.exampleWordEn})</Text>
         </View>
+
+        <PressableScale onPress={handleListen} style={styles.listenButton}>
+          <Ionicons name="volume-high" size={28} color="white" />
+          <Text style={styles.listenText}>Listen</Text>
+        </PressableScale>
       </Animated.View>
     </View>
   );
@@ -132,7 +148,7 @@ export default function AlphabetScreen() {
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
         renderItem={({ item, index }) => (
-          <LetterCard item={item} index={index} total={alphabet.length} colors={colors} />
+          <LetterCard item={item} index={index} total={alphabet.length} colors={colors} locale={locale} />
         )}
       />
 
@@ -182,6 +198,22 @@ const styles = StyleSheet.create({
   exampleRow: { flexDirection: "row", alignItems: "baseline" },
   exampleWord: { fontSize: 22, fontWeight: "600" },
   exampleTranslation: { fontSize: 18, color: COLORS.brown[400] },
+  listenButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: COLORS.gold,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 20,
+    gap: 8,
+    marginTop: 16,
+  },
+  listenText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "600",
+  },
   dots: {
     flexDirection: "row",
     justifyContent: "center",

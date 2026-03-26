@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useRouter } from "expo-router";
@@ -13,6 +13,8 @@ import { useLocale } from "../../lib/locale";
 import { COLORS, getLocaleColors } from "../../lib/colors";
 import { getAlphabet, type LetterData } from "../../lib/alphabet-data";
 import { Ionicons } from "@expo/vector-icons";
+import { speakLetter } from "../../lib/speech";
+import { playSound } from "../../lib/sounds";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CANVAS_SIZE = SCREEN_WIDTH - 64;
@@ -44,6 +46,7 @@ function TracingCanvas({
   const handleComplete = useCallback(() => {
     setCompleted(true);
     completedRef.current = true;
+    playSound("correct");
     onComplete();
   }, [onComplete]);
 
@@ -83,6 +86,7 @@ function TracingCanvas({
     });
 
   const clearCanvas = () => {
+    playSound("tap");
     setPaths([]);
     setCurrentPath("");
     currentPathRef.current = "";
@@ -212,6 +216,12 @@ export default function LetterTracingScreen() {
 
   const currentLetter = sessionLetters[currentIndex];
 
+  useEffect(() => {
+    if (currentLetter) {
+      speakLetter(currentLetter.letter, locale);
+    }
+  }, [currentIndex]);
+
   const handleLetterComplete = useCallback(() => {
     setLetterDone(true);
     setCompletedCount((c) => c + 1);
@@ -220,6 +230,7 @@ export default function LetterTracingScreen() {
   const handleNext = () => {
     if (currentIndex + 1 >= sessionLetters.length) {
       setGameOver(true);
+      playSound("complete");
     } else {
       setCurrentIndex((i) => i + 1);
       setLetterDone(false);

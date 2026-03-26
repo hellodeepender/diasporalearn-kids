@@ -18,6 +18,8 @@ import { useLocale } from "../../lib/locale";
 import { COLORS, getLocaleColors } from "../../lib/colors";
 import { getAlphabet, type LetterData } from "../../lib/alphabet-data";
 import { Ionicons } from "@expo/vector-icons";
+import { speakLetter } from "../../lib/speech";
+import { playSound } from "../../lib/sounds";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const TOTAL_ROUNDS = 10;
@@ -257,6 +259,7 @@ export default function PopTheLetterScreen() {
     const currentRound = roundRef.current;
     if (currentRound >= TOTAL_ROUNDS) {
       setGameOver(true);
+      playSound("complete");
       return;
     }
 
@@ -286,9 +289,17 @@ export default function PopTheLetterScreen() {
     startRound();
   }, []);
 
+  useEffect(() => {
+    if (targetLetter) {
+      speakLetter(targetLetter.letter, locale);
+    }
+  }, [targetLetter]);
+
   const handleBubblePop = useCallback(
     (id: string, correct: boolean) => {
+      playSound("tap");
       if (correct) {
+        playSound("correct");
         setScore((s) => s + 1);
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 700);
@@ -300,6 +311,7 @@ export default function PopTheLetterScreen() {
           startRound();
         }, 1000);
       } else {
+        playSound("wrong");
         // Remove the wrong bubble
         setBubbles((prev) => prev.filter((b) => b.id !== id));
       }
