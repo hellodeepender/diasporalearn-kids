@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 4,
     paddingHorizontal: 24,
-    paddingBottom: 30,
+    paddingBottom: 50,
     paddingTop: 8,
   },
   dot: { width: 6, height: 6, borderRadius: 3 },

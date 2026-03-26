@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useRouter } from "expo-router";
@@ -6,7 +6,7 @@ import {
   GestureDetector,
   Gesture,
 } from "react-native-gesture-handler";
-import Svg, { Path, Circle } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 import PressableScale from "../../components/PressableScale";
 import MascotImage from "../../components/MascotImage";
 import { useLocale } from "../../lib/locale";
@@ -30,46 +30,66 @@ function TracingCanvas({
 }) {
   const [paths, setPaths] = useState<string[]>([]);
   const [currentPath, setCurrentPath] = useState<string>("");
-  const [totalDistance, setTotalDistance] = useState(0);
   const [completed, setCompleted] = useState(false);
-  const [lastPoint, setLastPoint] = useState<{ x: number; y: number } | null>(null);
+
+  // Use refs for values mutated during gesture to avoid stale closures
+  const lastPointRef = useRef<{ x: number; y: number } | null>(null);
+  const totalDistRef = useRef(0);
+  const completedRef = useRef(false);
+  const currentPathRef = useRef("");
+
+  const isValidCoord = (v: number) =>
+    typeof v === "number" && !isNaN(v) && isFinite(v);
 
   const handleComplete = useCallback(() => {
     setCompleted(true);
+    completedRef.current = true;
     onComplete();
   }, [onComplete]);
 
   const panGesture = Gesture.Pan()
     .onBegin((e) => {
-      setCurrentPath(`M ${e.x} ${e.y}`);
-      setLastPoint({ x: e.x, y: e.y });
+      if (!isValidCoord(e.x) || !isValidCoord(e.y)) return;
+      const path = `M ${e.x} ${e.y}`;
+      currentPathRef.current = path;
+      setCurrentPath(path);
+      lastPointRef.current = { x: e.x, y: e.y };
     })
     .onUpdate((e) => {
-      setCurrentPath((prev) => prev + ` L ${e.x} ${e.y}`);
-      if (lastPoint) {
-        const dx = e.x - lastPoint.x;
-        const dy = e.y - lastPoint.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const newTotal = totalDistance + dist;
-        setTotalDistance(newTotal);
-        if (newTotal > COMPLETION_THRESHOLD && !completed) {
+      if (!isValidCoord(e.x) || !isValidCoord(e.y)) return;
+      const updated = currentPathRef.current + ` L ${e.x} ${e.y}`;
+      currentPathRef.current = updated;
+      setCurrentPath(updated);
+
+      const last = lastPointRef.current;
+      if (last) {
+        const dx = e.x - last.x;
+        const dy = e.y - last.y;
+        totalDistRef.current += Math.sqrt(dx * dx + dy * dy);
+        if (totalDistRef.current > COMPLETION_THRESHOLD && !completedRef.current) {
           handleComplete();
         }
       }
-      setLastPoint({ x: e.x, y: e.y });
+      lastPointRef.current = { x: e.x, y: e.y };
     })
     .onEnd(() => {
-      setPaths((prev) => [...prev, currentPath]);
+      const path = currentPathRef.current;
+      if (path) {
+        setPaths((prev) => [...prev, path]);
+      }
+      currentPathRef.current = "";
       setCurrentPath("");
-      setLastPoint(null);
+      lastPointRef.current = null;
     });
 
   const clearCanvas = () => {
     setPaths([]);
     setCurrentPath("");
-    setTotalDistance(0);
+    currentPathRef.current = "";
+    totalDistRef.current = 0;
+    completedRef.current = false;
     setCompleted(false);
-    setLastPoint(null);
+    lastPointRef.current = null;
   };
 
   return (

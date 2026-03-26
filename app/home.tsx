@@ -53,7 +53,7 @@ export default function HomeScreen() {
       icon: "trophy" as const,
       color: "#4CAF50",
       bg: "#F0FFF4",
-      route: "/home" as const,
+      route: "/progress" as const,
     },
   ];
 

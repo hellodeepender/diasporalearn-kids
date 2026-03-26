@@ -142,41 +142,44 @@ function Bubble({
   );
 }
 
-function ConfettiBurst() {
-  const pieces = Array.from({ length: 12 }, (_, i) => {
-    const angle = (i / 12) * Math.PI * 2;
-    const distance = 60 + Math.random() * 40;
-    return { id: i, x: Math.cos(angle) * distance, y: Math.sin(angle) * distance, color: BUBBLE_COLORS[i % BUBBLE_COLORS.length] };
-  });
+function ConfettiPiece({ targetX, targetY, color }: { targetX: number; targetY: number; color: string }) {
+  const tx = useSharedValue(0);
+  const ty = useSharedValue(0);
+  const op = useSharedValue(1);
+
+  useEffect(() => {
+    tx.value = withTiming(targetX, { duration: 600 });
+    ty.value = withTiming(targetY, { duration: 600 });
+    op.value = withDelay(300, withTiming(0, { duration: 300 }));
+  }, []);
+
+  const style = useAnimatedStyle(() => ({
+    transform: [{ translateX: tx.value }, { translateY: ty.value }],
+    opacity: op.value,
+  }));
 
   return (
+    <Animated.View
+      style={[
+        { position: "absolute", width: 10, height: 10, borderRadius: 5, backgroundColor: color },
+        style,
+      ]}
+    />
+  );
+}
+
+const CONFETTI_PIECES = Array.from({ length: 12 }, (_, i) => {
+  const angle = (i / 12) * Math.PI * 2;
+  const distance = 80;
+  return { id: i, x: Math.cos(angle) * distance, y: Math.sin(angle) * distance, color: BUBBLE_COLORS[i % BUBBLE_COLORS.length] };
+});
+
+function ConfettiBurst() {
+  return (
     <View style={styles.confettiContainer}>
-      {pieces.map((p) => {
-        const tx = useSharedValue(0);
-        const ty = useSharedValue(0);
-        const op = useSharedValue(1);
-
-        useEffect(() => {
-          tx.value = withTiming(p.x, { duration: 600 });
-          ty.value = withTiming(p.y, { duration: 600 });
-          op.value = withDelay(300, withTiming(0, { duration: 300 }));
-        }, []);
-
-        const style = useAnimatedStyle(() => ({
-          transform: [{ translateX: tx.value }, { translateY: ty.value }],
-          opacity: op.value,
-        }));
-
-        return (
-          <Animated.View
-            key={p.id}
-            style={[
-              { position: "absolute", width: 10, height: 10, borderRadius: 5, backgroundColor: p.color },
-              style,
-            ]}
-          />
-        );
-      })}
+      {CONFETTI_PIECES.map((p) => (
+        <ConfettiPiece key={p.id} targetX={p.x} targetY={p.y} color={p.color} />
+      ))}
     </View>
   );
 }
@@ -233,6 +236,14 @@ export default function PopTheLetterScreen() {
 
   const colors = getLocaleColors(locale);
   const alphabet = getAlphabet(locale);
+
+  if (!alphabet || alphabet.length === 0) {
+    return (
+      <View style={[styles.container, { backgroundColor: COLORS.warmWhite, alignItems: "center", justifyContent: "center" }]}>
+        <Text style={{ color: COLORS.brown[500], fontSize: 16 }}>No letters available</Text>
+      </View>
+    );
+  }
 
   const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);

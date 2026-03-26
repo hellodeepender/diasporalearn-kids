@@ -25,15 +25,6 @@ const GAMES = [
     bg: "#FFF3E0",
     route: "/games/letter-tracing" as const,
   },
-  {
-    id: "letter-world",
-    title: "Letter World",
-    subtitle: "Match objects to letters!",
-    icon: "home" as const,
-    color: "#00897B",
-    bg: "#E0F2F1",
-    route: "/games/letter-world" as const,
-  },
 ];
 
 export default function GamesPickerScreen() {
