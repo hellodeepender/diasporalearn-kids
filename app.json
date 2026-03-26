@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "DiasporaLearn Kids",
-    "slug": "diasporalearn-kids",
+    "slug": "diasporalearn-kids-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,7 +10,9 @@
     "splash": {
       "backgroundColor": "#FFF8F0"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "org.diasporalearn.kids"
@@ -25,6 +27,12 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "652f686c-7c19-4891-b456-8ebdf6e37b1c"
+      }
+    }
   }
 }
