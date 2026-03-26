@@ -4,7 +4,7 @@ import type { Locale } from "./colors";
 
 interface LocaleContextValue {
   locale: Locale | null;
-  setLocale: (l: Locale) => Promise<void>;
+  setLocale: (l: Locale | null) => Promise<void>;
 }
 
 const LocaleContext = createContext<LocaleContextValue>({
@@ -21,9 +21,13 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const setLocale = async (l: Locale) => {
+  const setLocale = async (l: Locale | null) => {
     setLocaleState(l);
-    await AsyncStorage.setItem("locale", l);
+    if (l) {
+      await AsyncStorage.setItem("locale", l);
+    } else {
+      await AsyncStorage.removeItem("locale");
+    }
   };
 
   return (

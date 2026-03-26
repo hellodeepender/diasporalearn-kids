@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
@@ -16,11 +17,15 @@ export default function LanguagePicker() {
   const router = useRouter();
   const { locale: savedLocale, setLocale } = useLocale();
 
-  // If locale already saved, go straight to home
-  if (savedLocale) {
-    router.replace("/home");
-    return null;
-  }
+  // Auto-redirect on cold start only (not after "Change Language")
+  const [redirected, setRedirected] = useState(false);
+
+  useEffect(() => {
+    if (savedLocale && !redirected) {
+      setRedirected(true);
+      router.replace("/home");
+    }
+  }, []);
 
   const handlePick = async (locale: Locale) => {
     await setLocale(locale);

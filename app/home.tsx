@@ -15,7 +15,7 @@ const GREETINGS: Record<string, string> = {
 };
 
 export default function HomeScreen() {
-  const { locale } = useLocale();
+  const { locale, setLocale } = useLocale();
   const router = useRouter();
 
   if (!locale) {
@@ -92,7 +92,7 @@ export default function HomeScreen() {
         ))}
       </View>
 
-      <PressableScale onPress={() => router.replace("/")}>
+      <PressableScale onPress={async () => { await setLocale(null); router.replace("/"); }}>
         <Text style={styles.changeLang}>Change Language</Text>
       </PressableScale>
     </ScrollView>
