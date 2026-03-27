@@ -165,34 +165,32 @@ export default function MatchPictureScreen() {
         <Text style={styles.scoreText}>⭐ {score}</Text>
       </View>
 
-      <View style={styles.letterSection}>
+      <View style={styles.questionSection}>
         <Text style={styles.bigEmoji}>{currentLetter.emoji}</Text>
-        <Text style={styles.wordText}>{currentLetter.exampleWord}</Text>
-        <Text style={styles.wordEn}>({currentLetter.exampleWordEn})</Text>
+        <Text style={[styles.targetWord, { color: colors.primary }]}>
+          {currentLetter.exampleWord}
+        </Text>
+        <Text style={styles.targetWordEn}>({currentLetter.exampleWordEn})</Text>
         <Text style={styles.question}>Which letter does this start with?</Text>
       </View>
 
-      <View style={styles.optionsGrid}>
+      <View style={styles.letterGrid}>
         {options.map((opt) => {
           const isSelected = selected === opt.letter;
           const isCorrect = opt.letter === currentLetter.letter;
-          let bgColor: string = colors.bg;
-          let borderColor: string = colors.primaryLight;
-          let textColor: string = COLORS.brown[800];
+          let bgColor = "white";
+          let borderColor = colors.primaryLight;
 
           if (selected !== null) {
             if (isCorrect) {
               bgColor = "#D4EDDA";
               borderColor = "#28A745";
-              textColor = "#155724";
             } else if (isSelected && !isCorrect) {
               bgColor = "#F8D7DA";
               borderColor = "#DC3545";
-              textColor = "#721C24";
             } else {
               bgColor = COLORS.brown[50];
               borderColor = COLORS.brown[100];
-              textColor = COLORS.brown[300];
             }
           }
 
@@ -202,18 +200,27 @@ export default function MatchPictureScreen() {
               onPress={() => handleAnswer(opt)}
               disabled={selected !== null}
               style={[
-                styles.optionBtn,
-                { backgroundColor: bgColor, borderColor: borderColor },
+                styles.letterCard,
+                { backgroundColor: bgColor, borderColor },
               ]}
             >
-              <Text style={[styles.optionText, { color: textColor }]}>
-                {opt.letter} {opt.letterLower}
+              <Text style={[
+                styles.letterCardText,
+                { color: selected !== null && !isCorrect && !isSelected ? COLORS.brown[300] : colors.primary }
+              ]}>
+                {opt.letter}
+              </Text>
+              <Text style={[
+                styles.letterCardSub,
+                { color: selected !== null && !isCorrect && !isSelected ? COLORS.brown[200] : COLORS.brown[400] }
+              ]}>
+                {opt.letterLower}
               </Text>
               {selected !== null && isCorrect && (
-                <Text style={styles.checkmark}>✓</Text>
+                <Text style={{ position: "absolute", top: 8, right: 12, fontSize: 20, color: "#28A745" }}>✓</Text>
               )}
               {selected !== null && isSelected && !isCorrect && (
-                <Text style={styles.xmark}>✗</Text>
+                <Text style={{ position: "absolute", top: 8, right: 12, fontSize: 20, color: "#DC3545" }}>✗</Text>
               )}
             </Pressable>
           );
@@ -244,24 +251,33 @@ const styles = StyleSheet.create({
   },
   roundText: { fontSize: 16, fontWeight: "600", color: COLORS.brown[500] },
   scoreText: { fontSize: 16, fontWeight: "600", color: COLORS.gold },
-  letterSection: { alignItems: "center", marginVertical: 24 },
+  questionSection: { alignItems: "center", marginBottom: 20 },
   bigEmoji: { fontSize: 64, marginBottom: 8 },
-  wordText: { fontSize: 32, fontWeight: "700", color: COLORS.brown[800] },
-  wordEn: { fontSize: 18, color: COLORS.brown[400], marginTop: 4 },
-  question: { fontSize: 18, color: COLORS.brown[500], marginTop: 12 },
-  optionsGrid: { gap: 12 },
-  optionBtn: {
-    borderWidth: 2,
-    borderRadius: 16,
-    paddingVertical: 18,
-    paddingHorizontal: 20,
+  targetWord: { fontSize: 28, fontWeight: "700" },
+  targetWordEn: { fontSize: 16, color: COLORS.brown[400], marginTop: 2 },
+  question: { fontSize: 16, color: COLORS.brown[500], marginTop: 12 },
+  letterGrid: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: 12,
+    justifyContent: "center",
   },
-  optionText: { fontSize: 24, fontWeight: "600" },
-  checkmark: { fontSize: 24, color: "#28A745" },
-  xmark: { fontSize: 24, color: "#DC3545" },
+  letterCard: {
+    width: "46%",
+    aspectRatio: 1,
+    borderRadius: 20,
+    borderWidth: 3,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  letterCardText: {
+    fontSize: 48,
+    fontWeight: "700",
+  },
+  letterCardSub: {
+    fontSize: 28,
+    marginTop: 4,
+  },
   nextBtn: {
     marginTop: 20,
     paddingVertical: 16,

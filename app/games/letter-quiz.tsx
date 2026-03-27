@@ -86,13 +86,15 @@ export default function LetterQuizScreen() {
       if (option.letter === currentLetter.letter) {
         playSound("correct");
         setScore((s) => s + 1);
+        // Speak the letter after correct answer
+        setTimeout(() => speakLetter(currentLetter.letter, locale), 300);
       } else {
         playSound("wrong");
       }
 
       setTimeout(() => setShowNext(true), 800);
     },
-    [selected, currentLetter]
+    [selected, currentLetter, locale]
   );
 
   const handleNext = useCallback(() => {

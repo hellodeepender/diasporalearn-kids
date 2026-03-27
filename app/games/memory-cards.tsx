@@ -50,7 +50,7 @@ function buildCards(alphabet: ReturnType<typeof getAlphabet>): Card[] {
     cardPairs.push({
       id: `word-${i}`,
       pairId: `pair-${i}`,
-      display: `${letter.emoji} ${letter.exampleWordEn}`,
+      display: `${letter.emoji}\n${letter.exampleWord}`,
       type: "name",
     });
   });
@@ -218,19 +218,36 @@ export default function MemoryCardsScreen() {
               ]}
             >
               {isFlipped ? (
-                <Text
-                  style={[
-                    styles.cardText,
-                    {
-                      color: isMatched ? "#155724" : COLORS.brown[800],
-                      fontSize: card.type === "letter" ? 36 : 16,
-                    },
-                  ]}
-                  numberOfLines={2}
-                  adjustsFontSizeToFit
-                >
-                  {card.display}
-                </Text>
+                <View style={{ alignItems: "center" }}>
+                  {card.type === "letter" ? (
+                    <Text
+                      style={[styles.cardText, {
+                        color: isMatched ? "#155724" : COLORS.brown[800],
+                        fontSize: 36,
+                        fontWeight: "700",
+                      }]}
+                    >
+                      {card.display}
+                    </Text>
+                  ) : (
+                    <>
+                      <Text style={{ fontSize: 24, marginBottom: 4 }}>
+                        {card.display.split("\n")[0]}
+                      </Text>
+                      <Text
+                        style={[styles.cardText, {
+                          color: isMatched ? "#155724" : COLORS.brown[800],
+                          fontSize: 14,
+                          fontWeight: "600",
+                        }]}
+                        numberOfLines={1}
+                        adjustsFontSizeToFit
+                      >
+                        {card.display.split("\n")[1]}
+                      </Text>
+                    </>
+                  )}
+                </View>
               ) : (
                 <Text style={styles.cardHidden}>?</Text>
               )}

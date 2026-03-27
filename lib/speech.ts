@@ -8,7 +8,7 @@ const LANGUAGE_MAP: Record<string, string> = {
 };
 
 export async function initSpeech() {
-  // no-op — kept for compatibility
+  // no-op — kept for compatibility with _layout.tsx call
 }
 
 export function speakLetter(text: string, locale: Locale) {
