@@ -26,8 +26,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      setLocale(null);
-      router.replace("/");
+      BackHandler.exitApp();
       return true;
     });
     return () => backHandler.remove();
