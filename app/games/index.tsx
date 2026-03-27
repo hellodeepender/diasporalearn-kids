@@ -57,7 +57,7 @@ export default function GamePicker() {
       </View>
 
       <View style={styles.titleSection}>
-        <MascotImage locale={locale} pose="happy" size={100} />
+        <MascotImage locale={locale} pose="celebrating" size={100} />
         <Text style={styles.title}>Play Games</Text>
         <Text style={styles.subtitle}>Choose a game to play!</Text>
       </View>

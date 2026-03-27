@@ -11,6 +11,7 @@ import { useLocale } from "../../lib/locale";
 import { COLORS, getLocaleColors } from "../../lib/colors";
 import { getAlphabet } from "../../lib/alphabet-data";
 import MascotImage from "../../components/MascotImage";
+import MascotWithBubble from "../../components/MascotWithBubble";
 import PressableScale from "../../components/PressableScale";
 import { playSound } from "../../lib/sounds";
 import { recordGameComplete } from "../../lib/progress";
@@ -146,7 +147,7 @@ export default function MemoryCardsScreen() {
     const stars = moves <= 8 ? 3 : moves <= 12 ? 2 : 1;
     return (
       <View style={[styles.container, { backgroundColor: COLORS.warmWhite }]}>
-        <MascotImage locale={locale} pose="celebrating" size={120} />
+        <MascotImage locale={locale} pose={moves <= 12 ? "celebrating" : "thinking"} size={120} />
         <View style={styles.starsRow}>
           {[1, 2, 3].map((s) => (
             <Text
@@ -191,6 +192,17 @@ export default function MemoryCardsScreen() {
         <Text style={styles.roundText}>Memory Cards</Text>
         <Text style={styles.scoreText}>Moves: {moves}</Text>
       </View>
+
+      <MascotWithBubble
+        locale={locale}
+        pose={matched.size > 3 ? "celebrating" : "happy"}
+        size={48}
+        message={
+          matched.size === 0 ? "Tap two cards to find matching pairs!" :
+          matched.size < cards.length ? "Keep going, you're doing great!" :
+          "Almost there!"
+        }
+      />
 
       <View style={styles.grid}>
         {cards.map((card) => {
@@ -256,7 +268,6 @@ export default function MemoryCardsScreen() {
         })}
       </View>
 
-      <Text style={styles.hint}>Tap two cards to find matching pairs!</Text>
     </View>
   );
 }
@@ -288,12 +299,6 @@ const styles = StyleSheet.create({
   },
   cardText: { fontWeight: "600", textAlign: "center" },
   cardHidden: { fontSize: 28, color: "white", fontWeight: "700" },
-  hint: {
-    textAlign: "center",
-    color: COLORS.brown[400],
-    fontSize: 14,
-    marginTop: 20,
-  },
   starsRow: { flexDirection: "row", gap: 8, marginTop: 16 },
   star: { fontSize: 40 },
   completeTitle: {

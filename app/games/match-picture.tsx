@@ -5,6 +5,7 @@ import { useLocale } from "../../lib/locale";
 import { COLORS, getLocaleColors, type Locale } from "../../lib/colors";
 import { getAlphabet, type LetterData } from "../../lib/alphabet-data";
 import MascotImage from "../../components/MascotImage";
+import MascotWithBubble from "../../components/MascotWithBubble";
 import PressableScale from "../../components/PressableScale";
 import { playSound } from "../../lib/sounds";
 import { speakWord } from "../../lib/speech";
@@ -111,7 +112,7 @@ export default function MatchPictureScreen() {
     const stars = score >= 9 ? 3 : score >= 7 ? 2 : 1;
     return (
       <View style={[styles.container, { backgroundColor: COLORS.warmWhite }]}>
-        <MascotImage locale={locale} pose="celebrating" size={120} />
+        <MascotImage locale={locale} pose={score >= 5 ? "celebrating" : "sad"} size={120} />
         <View style={styles.starsRow}>
           {[1, 2, 3].map((s) => (
             <Text
@@ -171,8 +172,14 @@ export default function MatchPictureScreen() {
           {currentLetter.exampleWord}
         </Text>
         <Text style={styles.targetWordEn}>({currentLetter.exampleWordEn})</Text>
-        <Text style={styles.question}>Which letter does this start with?</Text>
       </View>
+
+      <MascotWithBubble
+        locale={locale}
+        pose="thinking"
+        size={56}
+        message="Which letter does this start with?"
+      />
 
       <View style={styles.letterGrid}>
         {options.map((opt) => {
@@ -255,7 +262,6 @@ const styles = StyleSheet.create({
   bigEmoji: { fontSize: 64, marginBottom: 8 },
   targetWord: { fontSize: 28, fontWeight: "700" },
   targetWordEn: { fontSize: 16, color: COLORS.brown[400], marginTop: 2 },
-  question: { fontSize: 16, color: COLORS.brown[500], marginTop: 12 },
   letterGrid: {
     flexDirection: "row",
     flexWrap: "wrap",

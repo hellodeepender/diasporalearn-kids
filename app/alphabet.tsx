@@ -24,6 +24,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { speakLetter, speakWord } from "../lib/speech";
 import { playSound } from "../lib/sounds";
 import { recordLetterViewed } from "../lib/progress";
+import MascotImage from "../components/MascotImage";
 import type { Locale } from "../lib/colors";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -138,9 +139,12 @@ export default function AlphabetScreen() {
             <Ionicons name="arrow-back" size={24} color={colors.primary} />
           </View>
         </PressableScale>
-        <Text style={[styles.counter, { color: colors.primary }]}>
-          {currentIndex + 1} / {alphabet.length}
-        </Text>
+        <View style={styles.headerCenter}>
+          <MascotImage locale={locale} pose="reading" size={36} />
+          <Text style={[styles.counter, { color: colors.primary }]}>
+            {currentIndex + 1} / {alphabet.length}
+          </Text>
+        </View>
         <View style={styles.backBtn} />
       </View>
 
@@ -196,6 +200,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   backBtn: { width: 40, height: 40, justifyContent: "center", alignItems: "center" },
+  headerCenter: { flexDirection: "row", alignItems: "center", gap: 8 },
   counter: { fontSize: 16, fontWeight: "600" },
   card: {
     flex: 1,

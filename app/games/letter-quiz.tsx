@@ -5,6 +5,7 @@ import { useLocale } from "../../lib/locale";
 import { COLORS, getLocaleColors, type Locale } from "../../lib/colors";
 import { getAlphabet, type LetterData } from "../../lib/alphabet-data";
 import MascotImage from "../../components/MascotImage";
+import MascotWithBubble from "../../components/MascotWithBubble";
 import PressableScale from "../../components/PressableScale";
 import { playSound } from "../../lib/sounds";
 import { speakLetter } from "../../lib/speech";
@@ -110,7 +111,7 @@ export default function LetterQuizScreen() {
     const stars = score >= 9 ? 3 : score >= 7 ? 2 : 1;
     return (
       <View style={[styles.container, { backgroundColor: COLORS.warmWhite }]}>
-        <MascotImage locale={locale} pose="celebrating" size={120} />
+        <MascotImage locale={locale} pose={score >= 5 ? "celebrating" : "sad"} size={120} />
         <View style={styles.starsRow}>
           {[1, 2, 3].map((s) => (
             <Text
@@ -169,8 +170,14 @@ export default function LetterQuizScreen() {
         <Text style={[styles.bigLetter, { color: colors.primary }]}>
           {currentLetter.letter}
         </Text>
-        <Text style={styles.question}>What is this letter called?</Text>
       </View>
+
+      <MascotWithBubble
+        locale={locale}
+        pose="thinking"
+        size={56}
+        message="What is this letter called?"
+      />
 
       <View style={styles.optionsGrid}>
         {options.map((opt) => {
@@ -247,7 +254,6 @@ const styles = StyleSheet.create({
   letterSection: { alignItems: "center", marginVertical: 24 },
   bigEmoji: { fontSize: 48, marginBottom: 8 },
   bigLetter: { fontSize: 80, fontWeight: "700", lineHeight: 90 },
-  question: { fontSize: 18, color: COLORS.brown[500], marginTop: 8 },
   optionsGrid: { gap: 12 },
   optionBtn: {
     borderWidth: 2,

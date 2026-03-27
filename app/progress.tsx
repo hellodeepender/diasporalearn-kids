@@ -48,7 +48,7 @@ export default function ProgressScreen() {
       <View style={styles.heroSection}>
         <MascotImage
           locale={locale}
-          pose={gamesPlayed > 0 ? "celebrating" : "happy"}
+          pose={gamesPlayed > 5 ? "celebrating" : gamesPlayed > 0 ? "happy" : "reading"}
           size={120}
         />
         <Text style={styles.title}>My Progress</Text>
