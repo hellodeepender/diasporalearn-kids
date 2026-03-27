@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, BackHandler } from "react-native";
 import { useRouter } from "expo-router";
 import { useLocale } from "../../lib/locale";
 import { COLORS } from "../../lib/colors";
@@ -39,6 +40,14 @@ const GAMES = [
 export default function GamePicker() {
   const { locale } = useLocale();
   const router = useRouter();
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      router.back();
+      return true;
+    });
+    return () => backHandler.remove();
+  }, []);
 
   if (!locale) {
     router.replace("/");

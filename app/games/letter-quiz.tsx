@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, BackHandler } from "react-native";
 import { useRouter } from "expo-router";
 import { useLocale } from "../../lib/locale";
 import { COLORS, getLocaleColors, type Locale } from "../../lib/colors";
@@ -57,6 +57,14 @@ export default function LetterQuizScreen() {
   const [options, setOptions] = useState<LetterData[]>(() =>
     currentLetter ? pickOptions(currentLetter, alphabet) : []
   );
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      router.back();
+      return true;
+    });
+    return () => backHandler.remove();
+  }, []);
 
   useEffect(() => {
     if (currentLetter && phase === "playing") {

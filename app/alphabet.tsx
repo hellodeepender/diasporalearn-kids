@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   Dimensions,
+  BackHandler,
   type ViewToken,
 } from "react-native";
 import Animated, {
@@ -118,6 +119,14 @@ export default function AlphabetScreen() {
     if (alphabet.length > 0) {
       recordLetterViewed(locale, alphabet[0].letter);
     }
+  }, []);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      router.back();
+      return true;
+    });
+    return () => backHandler.remove();
   }, []);
 
   const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;

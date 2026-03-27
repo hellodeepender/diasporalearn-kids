@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Pressable,
   Dimensions,
+  BackHandler,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useLocale } from "../../lib/locale";
@@ -79,6 +80,14 @@ export default function MemoryCardsScreen() {
   const [phase, setPhase] = useState<"playing" | "complete">("playing");
 
   const allMatched = matched.size === cards.length;
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      router.back();
+      return true;
+    });
+    return () => backHandler.remove();
+  }, []);
 
   useEffect(() => {
     if (allMatched && cards.length > 0) {

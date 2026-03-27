@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, BackHandler } from "react-native";
 import { useRouter } from "expo-router";
 import PressableScale from "../components/PressableScale";
 import MascotImage from "../components/MascotImage";
@@ -19,6 +19,14 @@ export default function ProgressScreen() {
       getProgress(locale).then(setProgress);
     }
   }, [locale]);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      router.back();
+      return true;
+    });
+    return () => backHandler.remove();
+  }, []);
 
   if (!locale) {
     router.replace("/");

@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, BackHandler } from "react-native";
 import { useRouter } from "expo-router";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import PressableScale from "../components/PressableScale";
@@ -22,6 +23,15 @@ export default function HomeScreen() {
     router.replace("/");
     return null;
   }
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      setLocale(null);
+      router.replace("/");
+      return true;
+    });
+    return () => backHandler.remove();
+  }, []);
 
   const colors = getLocaleColors(locale);
   const mascotName = getMascotName(locale);
@@ -92,8 +102,12 @@ export default function HomeScreen() {
         ))}
       </View>
 
-      <PressableScale onPress={async () => { await setLocale(null); router.replace("/"); }}>
-        <Text style={styles.changeLang}>Change Language</Text>
+      <PressableScale
+        onPress={async () => { await setLocale(null); router.replace("/"); }}
+        style={styles.changeLangBtn}
+      >
+        <Ionicons name="globe-outline" size={20} color={COLORS.brown[500]} />
+        <Text style={styles.changeLangText}>Change Language</Text>
       </PressableScale>
     </ScrollView>
   );
@@ -123,11 +137,23 @@ const styles = StyleSheet.create({
   zoneText: { flex: 1 },
   zoneTitle: { fontSize: 18, fontWeight: "700" },
   zoneSub: { fontSize: 13, color: COLORS.brown[400], marginTop: 2 },
-  changeLang: {
-    textAlign: "center",
-    color: COLORS.brown[400],
-    fontSize: 14,
+  changeLangBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
     marginTop: 24,
-    textDecorationLine: "underline",
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: COLORS.brown[200],
+    backgroundColor: COLORS.brown[50],
+    alignSelf: "center",
+  },
+  changeLangText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: COLORS.brown[500],
   },
 });
