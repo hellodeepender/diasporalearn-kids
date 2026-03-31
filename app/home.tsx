@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import PressableScale from "../components/PressableScale";
 import MascotImage from "../components/MascotImage";
+import HomeBar from "../components/HomeBar";
 import { useLocale } from "../lib/locale";
 import { COLORS, getLocaleColors } from "../lib/colors";
 import { getMascotName } from "../lib/mascots";
@@ -71,6 +72,8 @@ export default function HomeScreen() {
       style={{ flex: 1, backgroundColor: COLORS.warmWhite }}
       contentContainerStyle={styles.content}
     >
+      <HomeBar showHome={false} />
+
       <Animated.View entering={FadeInUp.springify()} style={styles.greetingSection}>
         <MascotImage locale={locale} pose="happy" size={140} />
         <Text style={styles.greeting}>{greeting}!</Text>
@@ -94,30 +97,22 @@ export default function HomeScreen() {
                   <Text style={[styles.zoneTitle, { color: zone.color }]}>{zone.title}</Text>
                   <Text style={styles.zoneSub}>{zone.subtitle}</Text>
                 </View>
-                <Ionicons name="chevron-forward" size={24} color={COLORS.brown[300]} />
+                <Ionicons name="chevron-forward" size={24} color={COLORS.brown[400]} />
               </View>
             </PressableScale>
           </Animated.View>
         ))}
       </View>
-
-      <PressableScale
-        onPress={async () => { await setLocale(null); router.replace("/"); }}
-        style={styles.changeLangBtn}
-      >
-        <Ionicons name="globe-outline" size={20} color={COLORS.brown[500]} />
-        <Text style={styles.changeLangText}>Change Language</Text>
-      </PressableScale>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  content: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 40 },
-  greetingSection: { alignItems: "center", marginBottom: 32 },
+  content: { paddingTop: 44, paddingBottom: 40 },
+  greetingSection: { alignItems: "center", marginBottom: 32, paddingHorizontal: 24 },
   greeting: { fontSize: 28, fontWeight: "700", color: COLORS.brown[800], marginTop: 12 },
-  greetingSub: { fontSize: 16, color: COLORS.brown[400], marginTop: 4 },
-  zones: { gap: 14 },
+  greetingSub: { fontSize: 16, color: COLORS.brown[500], marginTop: 4 },
+  zones: { gap: 14, paddingHorizontal: 24 },
   zoneCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -135,24 +130,5 @@ const styles = StyleSheet.create({
   },
   zoneText: { flex: 1 },
   zoneTitle: { fontSize: 18, fontWeight: "700" },
-  zoneSub: { fontSize: 13, color: COLORS.brown[400], marginTop: 2 },
-  changeLangBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    marginTop: 24,
-    paddingVertical: 14,
-    paddingHorizontal: 28,
-    borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: COLORS.brown[200],
-    backgroundColor: COLORS.brown[50],
-    alignSelf: "center",
-  },
-  changeLangText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: COLORS.brown[500],
-  },
+  zoneSub: { fontSize: 13, color: COLORS.brown[500], marginTop: 2 },
 });

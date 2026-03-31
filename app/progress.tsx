@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView, BackHandler } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useFocusEffect } from "expo-router";
 import PressableScale from "../components/PressableScale";
 import MascotImage from "../components/MascotImage";
+import HomeBar from "../components/HomeBar";
 import { useLocale } from "../lib/locale";
 import { COLORS, getLocaleColors } from "../lib/colors";
 import { getAlphabet } from "../lib/alphabet-data";
@@ -14,11 +15,17 @@ export default function ProgressScreen() {
   const router = useRouter();
   const [progress, setProgress] = useState<ProgressData | null>(null);
 
-  useEffect(() => {
+  const loadProgress = useCallback(() => {
     if (locale) {
       getProgress(locale).then(setProgress);
     }
   }, [locale]);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadProgress();
+    }, [loadProgress])
+  );
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -49,6 +56,8 @@ export default function ProgressScreen() {
       style={[styles.container, { backgroundColor: COLORS.warmWhite }]}
       contentContainerStyle={styles.content}
     >
+      <HomeBar />
+
       <PressableScale onPress={() => router.back()} style={styles.back}>
         <Ionicons name="arrow-back" size={24} color={COLORS.brown[600]} />
       </PressableScale>
@@ -86,7 +95,7 @@ export default function ProgressScreen() {
 
         <View style={[styles.statCard, { borderColor: COLORS.gold }]}>
           <Ionicons name="game-controller" size={24} color={COLORS.gold} />
-          <Text style={[styles.statNumber, { color: COLORS.gold }]}>
+          <Text style={[styles.statNumber, { color: COLORS.goldDark }]}>
             {gamesPlayed}
           </Text>
           <Text style={styles.statLabel}>Games{"\n"}Played</Text>
@@ -94,7 +103,7 @@ export default function ProgressScreen() {
 
         <View style={[styles.statCard, { borderColor: "#2ECC71" }]}>
           <Ionicons name="trophy" size={24} color="#2ECC71" />
-          <Text style={[styles.statNumber, { color: "#2ECC71" }]}>
+          <Text style={[styles.statNumber, { color: "#1B8C4F" }]}>
             {gamesWon}
           </Text>
           <Text style={styles.statLabel}>Games{"\n"}Won</Text>
@@ -102,7 +111,7 @@ export default function ProgressScreen() {
 
         <View style={[styles.statCard, { borderColor: "#3498DB" }]}>
           <Ionicons name="checkmark-circle" size={24} color="#3498DB" />
-          <Text style={[styles.statNumber, { color: "#3498DB" }]}>
+          <Text style={[styles.statNumber, { color: "#1A6DAD" }]}>
             {accuracy}%
           </Text>
           <Text style={styles.statLabel}>Accuracy</Text>
@@ -114,8 +123,8 @@ export default function ProgressScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 },
-  back: { marginBottom: 8 },
+  content: { paddingTop: 44, paddingBottom: 40 },
+  back: { marginBottom: 8, paddingHorizontal: 20 },
   heroSection: { alignItems: "center", marginBottom: 28 },
   title: {
     fontSize: 28,
@@ -127,6 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 12,
+    paddingHorizontal: 20,
   },
   statCard: {
     width: "47%",
@@ -137,7 +147,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   statNumber: { fontSize: 32, fontWeight: "700", marginVertical: 4 },
-  statLabel: { fontSize: 12, color: COLORS.brown[400], textAlign: "center" },
+  statLabel: { fontSize: 12, color: COLORS.brown[500], textAlign: "center" },
   progressBar: {
     width: "100%",
     height: 6,

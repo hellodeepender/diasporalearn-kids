@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   Dimensions,
+  Pressable,
   BackHandler,
   type ViewToken,
 } from "react-native";
@@ -16,8 +17,10 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import PressableScale from "../components/PressableScale";
+import HomeBar from "../components/HomeBar";
 import { useLocale } from "../lib/locale";
 import { COLORS, getLocaleColors } from "../lib/colors";
 import { getAlphabet, type LetterData } from "../lib/alphabet-data";
@@ -28,7 +31,8 @@ import { recordLetterViewed } from "../lib/progress";
 import MascotImage from "../components/MascotImage";
 import type { Locale } from "../lib/colors";
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const ONBOARDING_KEY = "alphabet_onboarding_seen";
 
 function LetterCard({
   item,
@@ -45,7 +49,6 @@ function LetterCard({
 }) {
   const emojiScale = useSharedValue(1);
 
-  // Trigger bounce animation when card appears
   const onLayout = useCallback(() => {
     emojiScale.value = withSequence(
       withTiming(0.6, { duration: 0 }),
@@ -96,6 +99,7 @@ export default function AlphabetScreen() {
   const router = useRouter();
   const { locale } = useLocale();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const flatListRef = useRef<FlatList<LetterData>>(null);
 
   if (!locale) {
@@ -129,6 +133,17 @@ export default function AlphabetScreen() {
     return () => backHandler.remove();
   }, []);
 
+  useEffect(() => {
+    AsyncStorage.getItem(ONBOARDING_KEY).then((v) => {
+      if (!v) setShowOnboarding(true);
+    });
+  }, []);
+
+  const dismissOnboarding = () => {
+    setShowOnboarding(false);
+    AsyncStorage.setItem(ONBOARDING_KEY, "1");
+  };
+
   const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
   const getItemLayout = useCallback(
@@ -140,8 +155,18 @@ export default function AlphabetScreen() {
     []
   );
 
+  const goToIndex = (index: number) => {
+    if (index < 0 || index >= alphabet.length) return;
+    flatListRef.current?.scrollToIndex({ index, animated: true });
+    setCurrentIndex(index);
+    playSound("tap");
+    recordLetterViewed(locale, alphabet[index].letter);
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: colors.bg }]}>
+      <HomeBar />
+
       <View style={styles.header}>
         <PressableScale onPress={() => router.back()}>
           <View style={styles.backBtn}>
@@ -157,28 +182,48 @@ export default function AlphabetScreen() {
         <View style={styles.backBtn} />
       </View>
 
-      <FlatList
-        ref={flatListRef}
-        data={alphabet}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(_, i) => i.toString()}
-        getItemLayout={getItemLayout}
-        onViewableItemsChanged={onViewableItemsChanged}
-        viewabilityConfig={viewabilityConfig}
-        onMomentumScrollEnd={(e) => {
-          const index = Math.round(e.nativeEvent.contentOffset.x / SCREEN_WIDTH);
-          if (index >= 0 && index < alphabet.length) {
-            setCurrentIndex(index);
-            playSound("tap");
-            recordLetterViewed(locale, alphabet[index].letter);
-          }
-        }}
-        renderItem={({ item, index }) => (
-          <LetterCard item={item} index={index} total={alphabet.length} colors={colors} locale={locale} />
-        )}
-      />
+      <View style={styles.listArea}>
+        <FlatList
+          ref={flatListRef}
+          data={alphabet}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(_, i) => i.toString()}
+          getItemLayout={getItemLayout}
+          onViewableItemsChanged={onViewableItemsChanged}
+          viewabilityConfig={viewabilityConfig}
+          onMomentumScrollEnd={(e) => {
+            const index = Math.round(e.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+            if (index >= 0 && index < alphabet.length) {
+              setCurrentIndex(index);
+              playSound("tap");
+              recordLetterViewed(locale, alphabet[index].letter);
+            }
+          }}
+          renderItem={({ item, index }) => (
+            <LetterCard item={item} index={index} total={alphabet.length} colors={colors} locale={locale} />
+          )}
+        />
+
+        <Pressable
+          onPress={() => goToIndex(currentIndex - 1)}
+          style={[styles.arrowBtn, styles.arrowLeft, { opacity: currentIndex === 0 ? 0.3 : 1 }]}
+          disabled={currentIndex === 0}
+          hitSlop={8}
+        >
+          <Ionicons name="chevron-back" size={28} color={colors.primary} />
+        </Pressable>
+
+        <Pressable
+          onPress={() => goToIndex(currentIndex + 1)}
+          style={[styles.arrowBtn, styles.arrowRight, { opacity: currentIndex >= alphabet.length - 1 ? 0.3 : 1 }]}
+          disabled={currentIndex >= alphabet.length - 1}
+          hitSlop={8}
+        >
+          <Ionicons name="chevron-forward" size={28} color={colors.primary} />
+        </Pressable>
+      </View>
 
       <View style={styles.dots}>
         {alphabet.length <= 40 &&
@@ -195,12 +240,23 @@ export default function AlphabetScreen() {
             />
           ))}
       </View>
+
+      {showOnboarding && (
+        <Pressable style={styles.onboarding} onPress={dismissOnboarding}>
+          <View style={styles.onboardingBox}>
+            <Text style={styles.onboardingText}>
+              Tap arrows or swipe to explore letters
+            </Text>
+            <Text style={styles.onboardingArrows}>← →</Text>
+          </View>
+        </Pressable>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 50 },
+  container: { flex: 1, paddingTop: 44 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -211,6 +267,7 @@ const styles = StyleSheet.create({
   backBtn: { width: 40, height: 40, justifyContent: "center", alignItems: "center" },
   headerCenter: { flexDirection: "row", alignItems: "center", gap: 8 },
   counter: { fontSize: 16, fontWeight: "600" },
+  listArea: { flex: 1, position: "relative" },
   card: {
     flex: 1,
     justifyContent: "center",
@@ -222,16 +279,16 @@ const styles = StyleSheet.create({
   letterPair: { flexDirection: "row", alignItems: "baseline", gap: 16, marginBottom: 8 },
   letterUpper: { fontSize: 72, fontWeight: "700" },
   letterLower: { fontSize: 48, fontWeight: "600" },
-  letterName: { fontSize: 24, color: COLORS.brown[400], fontWeight: "500", marginBottom: 4 },
-  soundHint: { fontSize: 16, color: COLORS.brown[300], marginBottom: 20 },
+  letterName: { fontSize: 24, color: COLORS.brown[500], fontWeight: "500", marginBottom: 4 },
+  soundHint: { fontSize: 16, color: COLORS.brown[500], marginBottom: 20 },
   exampleRow: { flexDirection: "row", alignItems: "baseline" },
   exampleWord: { fontSize: 22, fontWeight: "600" },
-  exampleTranslation: { fontSize: 18, color: COLORS.brown[400] },
+  exampleTranslation: { fontSize: 18, color: COLORS.brown[500] },
   listenButton: {
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
-    backgroundColor: COLORS.gold,
+    backgroundColor: COLORS.goldDark,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 20,
@@ -242,7 +299,22 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "600",
+    textShadowColor: "rgba(0,0,0,0.3)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
+  arrowBtn: {
+    position: "absolute",
+    top: "45%",
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "rgba(0,0,0,0.08)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  arrowLeft: { left: 8 },
+  arrowRight: { right: 8 },
   dots: {
     flexDirection: "row",
     justifyContent: "center",
@@ -253,4 +325,34 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   dot: { width: 6, height: 6, borderRadius: 3 },
+  onboarding: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  onboardingBox: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingVertical: 24,
+    paddingHorizontal: 32,
+    alignItems: "center",
+    marginHorizontal: 40,
+  },
+  onboardingText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: COLORS.brown[700],
+    textAlign: "center",
+  },
+  onboardingArrows: {
+    fontSize: 32,
+    color: COLORS.brown[500],
+    marginTop: 8,
+    letterSpacing: 8,
+  },
 });

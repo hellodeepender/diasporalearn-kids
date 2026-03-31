@@ -7,6 +7,7 @@ import { getAlphabet, type LetterData } from "../../lib/alphabet-data";
 import MascotImage from "../../components/MascotImage";
 import MascotWithBubble from "../../components/MascotWithBubble";
 import PressableScale from "../../components/PressableScale";
+import HomeBar from "../../components/HomeBar";
 import { playSound } from "../../lib/sounds";
 import { speakLetter } from "../../lib/speech";
 import { recordGameComplete } from "../../lib/progress";
@@ -95,7 +96,6 @@ export default function LetterQuizScreen() {
       if (option.letter === currentLetter.letter) {
         playSound("correct");
         setScore((s) => s + 1);
-        // Speak the letter after correct answer
         setTimeout(() => speakLetter(currentLetter.letter, locale), 300);
       } else {
         playSound("wrong");
@@ -119,6 +119,7 @@ export default function LetterQuizScreen() {
     const stars = score >= 9 ? 3 : score >= 7 ? 2 : 1;
     return (
       <View style={[styles.container, { backgroundColor: COLORS.warmWhite }]}>
+        <HomeBar />
         <MascotImage locale={locale} pose={score >= 5 ? "celebrating" : "sad"} size={120} />
         <View style={styles.starsRow}>
           {[1, 2, 3].map((s) => (
@@ -163,6 +164,8 @@ export default function LetterQuizScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: COLORS.warmWhite }]}>
+      <HomeBar />
+
       <View style={styles.header}>
         <PressableScale onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color={COLORS.brown[600]} />
@@ -207,7 +210,7 @@ export default function LetterQuizScreen() {
             } else {
               bgColor = COLORS.brown[50];
               borderColor = COLORS.brown[100];
-              textColor = COLORS.brown[300];
+              textColor = COLORS.brown[400];
             }
           }
 
@@ -250,15 +253,15 @@ export default function LetterQuizScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 },
+  container: { flex: 1, paddingTop: 44, paddingHorizontal: 20, paddingBottom: 40 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 16,
   },
-  roundText: { fontSize: 16, fontWeight: "600", color: COLORS.brown[500] },
-  scoreText: { fontSize: 16, fontWeight: "600", color: COLORS.gold },
+  roundText: { fontSize: 16, fontWeight: "600", color: COLORS.brown[600] },
+  scoreText: { fontSize: 16, fontWeight: "600", color: COLORS.brown[600] },
   letterSection: { alignItems: "center", marginVertical: 24 },
   bigEmoji: { fontSize: 48, marginBottom: 8 },
   bigLetter: { fontSize: 80, fontWeight: "700", lineHeight: 90 },
@@ -292,7 +295,7 @@ const styles = StyleSheet.create({
   },
   completeScore: {
     fontSize: 16,
-    color: COLORS.brown[500],
+    color: COLORS.brown[600],
     marginTop: 4,
     marginBottom: 24,
   },
@@ -303,5 +306,5 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   playAgainText: { color: "white", fontSize: 18, fontWeight: "700" },
-  backText: { color: COLORS.brown[400], fontSize: 14, marginTop: 8 },
+  backText: { color: COLORS.brown[500], fontSize: 14, marginTop: 8 },
 });

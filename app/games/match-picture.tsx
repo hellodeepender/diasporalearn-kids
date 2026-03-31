@@ -7,6 +7,7 @@ import { getAlphabet, type LetterData } from "../../lib/alphabet-data";
 import MascotImage from "../../components/MascotImage";
 import MascotWithBubble from "../../components/MascotWithBubble";
 import PressableScale from "../../components/PressableScale";
+import HomeBar from "../../components/HomeBar";
 import { playSound } from "../../lib/sounds";
 import { speakWord } from "../../lib/speech";
 import { recordGameComplete } from "../../lib/progress";
@@ -120,6 +121,7 @@ export default function MatchPictureScreen() {
     const stars = score >= 9 ? 3 : score >= 7 ? 2 : 1;
     return (
       <View style={[styles.container, { backgroundColor: COLORS.warmWhite }]}>
+        <HomeBar />
         <MascotImage locale={locale} pose={score >= 5 ? "celebrating" : "sad"} size={120} />
         <View style={styles.starsRow}>
           {[1, 2, 3].map((s) => (
@@ -164,6 +166,8 @@ export default function MatchPictureScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: COLORS.warmWhite }]}>
+      <HomeBar />
+
       <View style={styles.header}>
         <PressableScale onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color={COLORS.brown[600]} />
@@ -221,13 +225,13 @@ export default function MatchPictureScreen() {
             >
               <Text style={[
                 styles.letterCardText,
-                { color: selected !== null && !isCorrect && !isSelected ? COLORS.brown[300] : colors.primary }
+                { color: selected !== null && !isCorrect && !isSelected ? COLORS.brown[400] : colors.primary }
               ]}>
                 {opt.letter}
               </Text>
               <Text style={[
                 styles.letterCardSub,
-                { color: selected !== null && !isCorrect && !isSelected ? COLORS.brown[200] : COLORS.brown[400] }
+                { color: selected !== null && !isCorrect && !isSelected ? COLORS.brown[300] : COLORS.brown[500] }
               ]}>
                 {opt.letterLower}
               </Text>
@@ -257,19 +261,19 @@ export default function MatchPictureScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 },
+  container: { flex: 1, paddingTop: 44, paddingHorizontal: 20, paddingBottom: 40 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 16,
   },
-  roundText: { fontSize: 16, fontWeight: "600", color: COLORS.brown[500] },
-  scoreText: { fontSize: 16, fontWeight: "600", color: COLORS.gold },
+  roundText: { fontSize: 16, fontWeight: "600", color: COLORS.brown[600] },
+  scoreText: { fontSize: 16, fontWeight: "600", color: COLORS.brown[600] },
   questionSection: { alignItems: "center", marginBottom: 20 },
   bigEmoji: { fontSize: 64, marginBottom: 8 },
   targetWord: { fontSize: 28, fontWeight: "700" },
-  targetWordEn: { fontSize: 16, color: COLORS.brown[400], marginTop: 2 },
+  targetWordEn: { fontSize: 16, color: COLORS.brown[500], marginTop: 2 },
   letterGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -309,7 +313,7 @@ const styles = StyleSheet.create({
   },
   completeScore: {
     fontSize: 16,
-    color: COLORS.brown[500],
+    color: COLORS.brown[600],
     marginTop: 4,
     marginBottom: 24,
   },
@@ -320,5 +324,5 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   playAgainText: { color: "white", fontSize: 18, fontWeight: "700" },
-  backText: { color: COLORS.brown[400], fontSize: 14, marginTop: 8 },
+  backText: { color: COLORS.brown[500], fontSize: 14, marginTop: 8 },
 });

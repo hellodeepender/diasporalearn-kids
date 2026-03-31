@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    color: COLORS.brown[400],
+    color: COLORS.brown[500],
     textAlign: "center",
     marginTop: 8,
     marginBottom: 32,
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   langNameEn: {
     fontSize: 14,
-    color: COLORS.brown[400],
+    color: COLORS.brown[500],
     marginTop: 2,
   },
 });

@@ -14,6 +14,7 @@ import { getAlphabet } from "../../lib/alphabet-data";
 import MascotImage from "../../components/MascotImage";
 import MascotWithBubble from "../../components/MascotWithBubble";
 import PressableScale from "../../components/PressableScale";
+import HomeBar from "../../components/HomeBar";
 import { playSound } from "../../lib/sounds";
 import { recordGameComplete } from "../../lib/progress";
 import { Ionicons } from "@expo/vector-icons";
@@ -156,6 +157,7 @@ export default function MemoryCardsScreen() {
     const stars = moves <= 8 ? 3 : moves <= 12 ? 2 : 1;
     return (
       <View style={[styles.container, { backgroundColor: COLORS.warmWhite }]}>
+        <HomeBar />
         <MascotImage locale={locale} pose={moves <= 12 ? "celebrating" : "thinking"} size={120} />
         <View style={styles.starsRow}>
           {[1, 2, 3].map((s) => (
@@ -194,6 +196,8 @@ export default function MemoryCardsScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: COLORS.warmWhite }]}>
+      <HomeBar />
+
       <View style={styles.header}>
         <PressableScale onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color={COLORS.brown[600]} />
@@ -276,13 +280,12 @@ export default function MemoryCardsScreen() {
           );
         })}
       </View>
-
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 },
+  container: { flex: 1, paddingTop: 44, paddingHorizontal: 20, paddingBottom: 40 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -290,7 +293,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   roundText: { fontSize: 18, fontWeight: "700", color: COLORS.brown[800] },
-  scoreText: { fontSize: 14, color: COLORS.brown[500] },
+  scoreText: { fontSize: 14, color: COLORS.brown[600] },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -318,7 +321,7 @@ const styles = StyleSheet.create({
   },
   completeScore: {
     fontSize: 16,
-    color: COLORS.brown[500],
+    color: COLORS.brown[600],
     marginTop: 4,
     marginBottom: 24,
   },
@@ -329,5 +332,5 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   playAgainText: { color: "white", fontSize: 18, fontWeight: "700" },
-  backText: { color: COLORS.brown[400], fontSize: 14, marginTop: 8 },
+  backText: { color: COLORS.brown[500], fontSize: 14, marginTop: 8 },
 });

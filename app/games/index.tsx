@@ -5,6 +5,7 @@ import { useLocale } from "../../lib/locale";
 import { COLORS } from "../../lib/colors";
 import MascotImage from "../../components/MascotImage";
 import PressableScale from "../../components/PressableScale";
+import HomeBar from "../../components/HomeBar";
 import { Ionicons } from "@expo/vector-icons";
 
 const GAMES = [
@@ -59,6 +60,8 @@ export default function GamePicker() {
       style={[styles.container, { backgroundColor: COLORS.warmWhite }]}
       contentContainerStyle={styles.content}
     >
+      <HomeBar />
+
       <View style={styles.header}>
         <PressableScale onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color={COLORS.brown[600]} />
@@ -90,7 +93,7 @@ export default function GamePicker() {
               <Ionicons
                 name="chevron-forward"
                 size={24}
-                color={COLORS.brown[300]}
+                color={COLORS.brown[400]}
               />
             </View>
           </PressableScale>
@@ -102,8 +105,8 @@ export default function GamePicker() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 },
-  header: { marginBottom: 8 },
+  content: { paddingTop: 44, paddingBottom: 40 },
+  header: { marginBottom: 8, paddingHorizontal: 20 },
   titleSection: { alignItems: "center", marginBottom: 28 },
   title: {
     fontSize: 28,
@@ -111,8 +114,8 @@ const styles = StyleSheet.create({
     color: COLORS.brown[800],
     marginTop: 12,
   },
-  subtitle: { fontSize: 16, color: COLORS.brown[400], marginTop: 4 },
-  games: { gap: 14 },
+  subtitle: { fontSize: 16, color: COLORS.brown[500], marginTop: 4 },
+  games: { gap: 14, paddingHorizontal: 20 },
   gameCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -124,5 +127,5 @@ const styles = StyleSheet.create({
   gameEmoji: { fontSize: 36 },
   gameText: { flex: 1 },
   gameTitle: { fontSize: 20, fontWeight: "700" },
-  gameSub: { fontSize: 13, color: COLORS.brown[400], marginTop: 2 },
+  gameSub: { fontSize: 13, color: COLORS.brown[500], marginTop: 2 },
 });
