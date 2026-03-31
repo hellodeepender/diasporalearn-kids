@@ -2,6 +2,7 @@ import * as Speech from "expo-speech";
 import { Audio } from "expo-av";
 import type { Locale } from "./colors";
 import { HY_LETTER_AUDIO, HY_WORD_AUDIO } from "./armenian-audio";
+import { SYR_LETTER_AUDIO, SYR_WORD_AUDIO } from "./syriac-audio";
 import { getAlphabet } from "./alphabet-data";
 
 const LANGUAGE_MAP: Record<string, string> = {
@@ -10,32 +11,54 @@ const LANGUAGE_MAP: Record<string, string> = {
   ar: "ar",
 };
 
-// Cache letter→index lookup for Armenian
+// Cache letter→index lookups for bundled-audio locales
 let hyLetterIndex: Map<string, number> | null = null;
 let hyWordIndex: Map<string, number> | null = null;
+let syrLetterIndex: Map<string, number> | null = null;
+let syrWordIndex: Map<string, number> | null = null;
 
-function getHyLetterIndex(): Map<string, number> {
-  if (!hyLetterIndex) {
-    hyLetterIndex = new Map();
-    const alphabet = getAlphabet("hy");
-    alphabet.forEach((item, i) => {
-      hyLetterIndex!.set(item.letter, i);
-      hyLetterIndex!.set(item.letterLower, i);
+function getLetterIndex(locale: "hy" | "syr"): Map<string, number> {
+  if (locale === "hy") {
+    if (!hyLetterIndex) {
+      hyLetterIndex = new Map();
+      getAlphabet("hy").forEach((item, i) => {
+        hyLetterIndex!.set(item.letter, i);
+        hyLetterIndex!.set(item.letterLower, i);
+      });
+    }
+    return hyLetterIndex;
+  }
+  if (!syrLetterIndex) {
+    syrLetterIndex = new Map();
+    getAlphabet("syr").forEach((item, i) => {
+      syrLetterIndex!.set(item.letter, i);
+      syrLetterIndex!.set(item.letterLower, i);
     });
   }
-  return hyLetterIndex;
+  return syrLetterIndex;
 }
 
-function getHyWordIndex(): Map<string, number> {
-  if (!hyWordIndex) {
-    hyWordIndex = new Map();
-    const alphabet = getAlphabet("hy");
-    alphabet.forEach((item, i) => {
-      hyWordIndex!.set(item.exampleWord, i);
+function getWordIndex(locale: "hy" | "syr"): Map<string, number> {
+  if (locale === "hy") {
+    if (!hyWordIndex) {
+      hyWordIndex = new Map();
+      getAlphabet("hy").forEach((item, i) => {
+        hyWordIndex!.set(item.exampleWord, i);
+      });
+    }
+    return hyWordIndex;
+  }
+  if (!syrWordIndex) {
+    syrWordIndex = new Map();
+    getAlphabet("syr").forEach((item, i) => {
+      syrWordIndex!.set(item.exampleWord, i);
     });
   }
-  return hyWordIndex;
+  return syrWordIndex;
 }
+
+const LETTER_AUDIO = { hy: HY_LETTER_AUDIO, syr: SYR_LETTER_AUDIO };
+const WORD_AUDIO = { hy: HY_WORD_AUDIO, syr: SYR_WORD_AUDIO };
 
 let currentSound: Audio.Sound | null = null;
 
@@ -49,7 +72,6 @@ async function playBundledAudio(source: ReturnType<typeof require>) {
     const { sound } = await Audio.Sound.createAsync(source);
     currentSound = sound;
     await sound.playAsync();
-    // Clean up when done
     sound.setOnPlaybackStatusUpdate((status) => {
       if ("didJustFinish" in status && status.didJustFinish) {
         sound.unloadAsync().catch(() => {});
@@ -60,7 +82,6 @@ async function playBundledAudio(source: ReturnType<typeof require>) {
 }
 
 export async function initSpeech() {
-  // Pre-configure audio mode for playback
   try {
     await Audio.setAudioModeAsync({
       playsInSilentModeIOS: true,
@@ -69,18 +90,17 @@ export async function initSpeech() {
 }
 
 export function speakLetter(text: string, locale: Locale) {
-  // Syriac has no TTS or bundled audio yet — fail silently
-  if (locale === "syr") return;
-
-  if (locale === "hy") {
-    const idx = getHyLetterIndex().get(text);
-    if (idx !== undefined && HY_LETTER_AUDIO[idx]) {
-      playBundledAudio(HY_LETTER_AUDIO[idx]);
+  if (locale === "hy" || locale === "syr") {
+    const idx = getLetterIndex(locale).get(text);
+    if (idx !== undefined && LETTER_AUDIO[locale][idx]) {
+      playBundledAudio(LETTER_AUDIO[locale][idx]);
       return;
     }
+    // No matching bundled audio — fail silently for these locales
+    return;
   }
 
-  // Greek, Arabic, or fallback
+  // Greek, Arabic — use expo-speech
   try {
     Speech.stop();
     Speech.speak(text, {
@@ -92,17 +112,16 @@ export function speakLetter(text: string, locale: Locale) {
 }
 
 export function speakWord(word: string, locale: Locale) {
-  if (locale === "syr") return;
-
-  if (locale === "hy") {
-    const idx = getHyWordIndex().get(word);
-    if (idx !== undefined && HY_WORD_AUDIO[idx]) {
-      playBundledAudio(HY_WORD_AUDIO[idx]);
+  if (locale === "hy" || locale === "syr") {
+    const idx = getWordIndex(locale).get(word);
+    if (idx !== undefined && WORD_AUDIO[locale][idx]) {
+      playBundledAudio(WORD_AUDIO[locale][idx]);
       return;
     }
+    return;
   }
 
-  // Greek, Arabic, or fallback
+  // Greek, Arabic — use expo-speech
   try {
     Speech.stop();
     Speech.speak(word, {
