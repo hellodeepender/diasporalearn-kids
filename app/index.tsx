@@ -12,7 +12,7 @@ const LANGUAGES: { locale: Locale; name: string; nameEn: string; flag: string; h
   { locale: "hy", name: "\u0540\u0561\u0575\u0565\u0580\u0567\u0576", nameEn: "Armenian", flag: "\uD83C\uDDE6\uD83C\uDDF2", hasMascot: true },
   { locale: "el", name: "\u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC", nameEn: "Greek", flag: "\uD83C\uDDEC\uD83C\uDDF7", hasMascot: true },
   { locale: "ar", name: "\u0627\u0644\u0639\u0631\u0628\u064A\u0629", nameEn: "Arabic", flag: "\uD83C\uDDF1\uD83C\uDDE7", hasMascot: true },
-  { locale: "syr", name: "\u0723\u0718\u072A\u071D\u072C", nameEn: "Assyrian", flag: "\uD83D\uDC02", hasMascot: false },
+  { locale: "syr", name: "\u0723\u0718\u072A\u071D\u072C", nameEn: "Assyrian", flag: "\uD83D\uDC02", hasMascot: true },
 ];
 
 export default function LanguagePicker() {

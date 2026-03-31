@@ -23,8 +23,8 @@ const MASCOTS: Record<string, Partial<Record<MascotPose, ImageSourcePropType>>> 
     celebrating: require("../assets/mascots/ar-celebrating.png"),
   },
   syr: {
-    happy: require("../assets/mascots/hy-happy.png"),
-    celebrating: require("../assets/mascots/hy-celebrating.png"),
+    happy: require("../assets/mascots/syr-lamassu.png"),
+    celebrating: require("../assets/mascots/syr-lamassu.png"),
   },
 };
 
