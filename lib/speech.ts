@@ -69,6 +69,9 @@ export async function initSpeech() {
 }
 
 export function speakLetter(text: string, locale: Locale) {
+  // Syriac has no TTS or bundled audio yet — fail silently
+  if (locale === "syr") return;
+
   if (locale === "hy") {
     const idx = getHyLetterIndex().get(text);
     if (idx !== undefined && HY_LETTER_AUDIO[idx]) {
@@ -89,6 +92,8 @@ export function speakLetter(text: string, locale: Locale) {
 }
 
 export function speakWord(word: string, locale: Locale) {
+  if (locale === "syr") return;
+
   if (locale === "hy") {
     const idx = getHyWordIndex().get(word);
     if (idx !== undefined && HY_WORD_AUDIO[idx]) {

@@ -17,7 +17,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     AsyncStorage.getItem("locale").then((v) => {
-      if (v === "hy" || v === "el" || v === "ar") setLocaleState(v);
+      if (v === "hy" || v === "el" || v === "ar" || v === "syr") setLocaleState(v);
     });
   }, []);
 

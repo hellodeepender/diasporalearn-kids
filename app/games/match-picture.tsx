@@ -12,6 +12,7 @@ import { playSound } from "../../lib/sounds";
 import { speakWord } from "../../lib/speech";
 import { recordGameComplete } from "../../lib/progress";
 import { Ionicons } from "@expo/vector-icons";
+import { getFontFamily } from "../../lib/fonts";
 
 const TOTAL_ROUNDS = 10;
 
@@ -180,7 +181,7 @@ export default function MatchPictureScreen() {
 
       <View style={styles.questionSection}>
         <Text style={styles.bigEmoji}>{currentLetter.emoji}</Text>
-        <Text style={[styles.targetWord, { color: colors.primary }]}>
+        <Text style={[styles.targetWord, { color: colors.primary, fontFamily: getFontFamily(locale) }]}>
           {currentLetter.exampleWord}
         </Text>
         <Text style={styles.targetWordEn}>({currentLetter.exampleWordEn})</Text>
@@ -225,7 +226,7 @@ export default function MatchPictureScreen() {
             >
               <Text style={[
                 styles.letterCardText,
-                { color: selected !== null && !isCorrect && !isSelected ? COLORS.brown[400] : colors.primary }
+                { color: selected !== null && !isCorrect && !isSelected ? COLORS.brown[400] : colors.primary, fontFamily: getFontFamily(locale) }
               ]}>
                 {opt.letter}
               </Text>

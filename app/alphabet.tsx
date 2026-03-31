@@ -29,6 +29,7 @@ import { speakLetter, speakWord } from "../lib/speech";
 import { playSound } from "../lib/sounds";
 import { recordLetterViewed } from "../lib/progress";
 import MascotImage from "../components/MascotImage";
+import { getFontFamily } from "../lib/fonts";
 import type { Locale } from "../lib/colors";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -60,6 +61,8 @@ function LetterCard({
     transform: [{ scale: emojiScale.value }],
   }));
 
+  const fontFamily = getFontFamily(locale);
+
   const handleListen = () => {
     playSound("tap");
     speakLetter(item.letter, locale);
@@ -74,15 +77,15 @@ function LetterCard({
         </Animated.View>
 
         <View style={styles.letterPair}>
-          <Text style={[styles.letterUpper, { color: colors.primary }]}>{item.letter}</Text>
-          <Text style={[styles.letterLower, { color: colors.primary }]}>{item.letterLower}</Text>
+          <Text style={[styles.letterUpper, { color: colors.primary, fontFamily }]}>{item.letter}</Text>
+          <Text style={[styles.letterLower, { color: colors.primary, fontFamily }]}>{item.letterLower}</Text>
         </View>
 
         <Text style={styles.letterName}>{item.name}</Text>
         <Text style={styles.soundHint}>sounds like "{item.sound}"</Text>
 
         <View style={styles.exampleRow}>
-          <Text style={[styles.exampleWord, { color: colors.primary }]}>{item.exampleWord}</Text>
+          <Text style={[styles.exampleWord, { color: colors.primary, fontFamily }]}>{item.exampleWord}</Text>
           <Text style={styles.exampleTranslation}> ({item.exampleWordEn})</Text>
         </View>
 

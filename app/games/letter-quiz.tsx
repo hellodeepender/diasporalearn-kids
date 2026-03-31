@@ -12,6 +12,7 @@ import { playSound } from "../../lib/sounds";
 import { speakLetter } from "../../lib/speech";
 import { recordGameComplete } from "../../lib/progress";
 import { Ionicons } from "@expo/vector-icons";
+import { getFontFamily } from "../../lib/fonts";
 
 const TOTAL_ROUNDS = 10;
 
@@ -178,7 +179,7 @@ export default function LetterQuizScreen() {
 
       <View style={styles.letterSection}>
         <Text style={styles.bigEmoji}>{currentLetter.emoji}</Text>
-        <Text style={[styles.bigLetter, { color: colors.primary }]}>
+        <Text style={[styles.bigLetter, { color: colors.primary, fontFamily: getFontFamily(locale) }]}>
           {currentLetter.letter}
         </Text>
       </View>

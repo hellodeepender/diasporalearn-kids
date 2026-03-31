@@ -18,6 +18,7 @@ import HomeBar from "../../components/HomeBar";
 import { playSound } from "../../lib/sounds";
 import { recordGameComplete } from "../../lib/progress";
 import { Ionicons } from "@expo/vector-icons";
+import { getFontFamily } from "../../lib/fonts";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_GAP = 8;
@@ -250,6 +251,7 @@ export default function MemoryCardsScreen() {
                         color: isMatched ? "#155724" : COLORS.brown[800],
                         fontSize: 36,
                         fontWeight: "700",
+                        fontFamily: getFontFamily(locale),
                       }]}
                     >
                       {card.display}
@@ -264,6 +266,7 @@ export default function MemoryCardsScreen() {
                           color: isMatched ? "#155724" : COLORS.brown[800],
                           fontSize: 14,
                           fontWeight: "600",
+                          fontFamily: getFontFamily(locale),
                         }]}
                         numberOfLines={1}
                         adjustsFontSizeToFit

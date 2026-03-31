@@ -37,10 +37,17 @@ export const COLORS = {
       accent: "#D4A843",
       bg: "#F0FFF4",
     },
+    syr: {
+      primary: "#6B21A8",
+      primaryLight: "#D8B4FE",
+      primaryDark: "#4C1D95",
+      accent: "#D4A843",
+      bg: "#F5F0FF",
+    },
   },
 } as const;
 
-export type Locale = "hy" | "el" | "ar";
+export type Locale = "hy" | "el" | "ar" | "syr";
 
 export function getLocaleColors(locale: Locale) {
   return COLORS.locale[locale];

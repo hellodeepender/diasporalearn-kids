@@ -8,12 +8,14 @@ import HomeBar from "../components/HomeBar";
 import { useLocale } from "../lib/locale";
 import { COLORS, getLocaleColors } from "../lib/colors";
 import { getMascotName } from "../lib/mascots";
+import { getFontFamily } from "../lib/fonts";
 import { Ionicons } from "@expo/vector-icons";
 
 const GREETINGS: Record<string, string> = {
   hy: "\u0532\u0561\u0580\u0587",
   el: "\u0393\u03B5\u03B9\u03B1 \u03C3\u03BF\u03C5",
   ar: "\u0645\u0631\u062D\u0628\u0627",
+  syr: "\u072B\u0720\u0721\u0710",
 };
 
 export default function HomeScreen() {
@@ -76,7 +78,7 @@ export default function HomeScreen() {
 
       <Animated.View entering={FadeInUp.springify()} style={styles.greetingSection}>
         <MascotImage locale={locale} pose="happy" size={140} />
-        <Text style={styles.greeting}>{greeting}!</Text>
+        <Text style={[styles.greeting, { fontFamily: getFontFamily(locale) }]}>{greeting}!</Text>
         <Text style={styles.greetingSub}>
           What would you like to do today?
         </Text>

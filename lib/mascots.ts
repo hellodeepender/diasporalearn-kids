@@ -22,12 +22,17 @@ const MASCOTS: Record<string, Partial<Record<MascotPose, ImageSourcePropType>>> 
     happy: require("../assets/mascots/ar-happy.png"),
     celebrating: require("../assets/mascots/ar-celebrating.png"),
   },
+  syr: {
+    happy: require("../assets/mascots/hy-happy.png"),
+    celebrating: require("../assets/mascots/hy-celebrating.png"),
+  },
 };
 
 const MASCOT_NAMES: Record<string, string> = {
   hy: "Nouri",
   el: "Sophia",
   ar: "Zaytoun",
+  syr: "Lamassu",
 };
 
 export function getMascotImage(locale: Locale, pose: MascotPose = "happy"): ImageSourcePropType {

@@ -109,11 +109,37 @@ const ARABIC_LETTERS: LetterData[] = [
   { letter: "ي", letterLower: "ي", name: "Ya", sound: "y", exampleWord: "يد", exampleWordEn: "hand", emoji: "✋" },
 ];
 
+const SYRIAC_LETTERS: LetterData[] = [
+  { letter: "\u0710", letterLower: "\u0710", name: "\u0100lap", sound: "a", exampleWord: "\u0710\u0712\u0710", exampleWordEn: "father", emoji: "\uD83D\uDC68" },
+  { letter: "\u0712", letterLower: "\u0712", name: "B\u0113th", sound: "b", exampleWord: "\u0712\u071D\u072C\u0710", exampleWordEn: "house", emoji: "\uD83C\uDFE0" },
+  { letter: "\u0713", letterLower: "\u0713", name: "G\u0101mal", sound: "g", exampleWord: "\u0713\u0722\u072C\u0710", exampleWordEn: "garden", emoji: "\uD83C\uDF3B" },
+  { letter: "\u0715", letterLower: "\u0715", name: "D\u0101lath", sound: "d", exampleWord: "\u0715\u0717\u0712\u0710", exampleWordEn: "gold", emoji: "\u2728" },
+  { letter: "\u0717", letterLower: "\u0717", name: "H\u0113", sound: "h", exampleWord: "\u0717\u071D\u071F\u0720\u0710", exampleWordEn: "temple", emoji: "\uD83D\uDED5" },
+  { letter: "\u0718", letterLower: "\u0718", name: "W\u0101w", sound: "w", exampleWord: "\u0718\u072A\u0715\u0710", exampleWordEn: "rose", emoji: "\uD83C\uDF39" },
+  { letter: "\u0719", letterLower: "\u0719", name: "Zayn", sound: "z", exampleWord: "\u0719\u071D\u072C\u0710", exampleWordEn: "olive", emoji: "\uD83E\uDED2" },
+  { letter: "\u071A", letterLower: "\u071A", name: "\u1E24\u0113th", sound: "h", exampleWord: "\u071A\u0721\u072A\u0710", exampleWordEn: "donkey", emoji: "\uD83D\uDC34" },
+  { letter: "\u071B", letterLower: "\u071B", name: "\u1E6C\u0113th", sound: "t", exampleWord: "\u071B\u0718\u072A\u0710", exampleWordEn: "mountain", emoji: "\u26F0\uFE0F" },
+  { letter: "\u071D", letterLower: "\u071D", name: "Y\u014Ddh", sound: "y", exampleWord: "\u071D\u0721\u0710", exampleWordEn: "sea", emoji: "\uD83C\uDF0A" },
+  { letter: "\u071F", letterLower: "\u071F", name: "K\u0101p", sound: "k", exampleWord: "\u071F\u0720\u0712\u0710", exampleWordEn: "dog", emoji: "\uD83D\uDC15" },
+  { letter: "\u0720", letterLower: "\u0720", name: "L\u0101madh", sound: "l", exampleWord: "\u0720\u0712\u0710", exampleWordEn: "heart", emoji: "\u2764\uFE0F" },
+  { letter: "\u0721", letterLower: "\u0721", name: "M\u012Bm", sound: "m", exampleWord: "\u0721\u071D\u0710", exampleWordEn: "water", emoji: "\uD83D\uDCA7" },
+  { letter: "\u0722", letterLower: "\u0722", name: "N\u016Bn", sound: "n", exampleWord: "\u0722\u0718\u0722\u0710", exampleWordEn: "fish", emoji: "\uD83D\uDC1F" },
+  { letter: "\u0723", letterLower: "\u0723", name: "Semkath", sound: "s", exampleWord: "\u0723\u0726\u072A\u0710", exampleWordEn: "book", emoji: "\uD83D\uDCD6" },
+  { letter: "\u0725", letterLower: "\u0725", name: "\u02BF\u0112", sound: "a", exampleWord: "\u0725\u071D\u0722\u0710", exampleWordEn: "eye", emoji: "\uD83D\uDC41\uFE0F" },
+  { letter: "\u0726", letterLower: "\u0726", name: "P\u0113", sound: "p", exampleWord: "\u0726\u0710\u072C\u0710", exampleWordEn: "face", emoji: "\uD83D\uDE0A" },
+  { letter: "\u0728", letterLower: "\u0728", name: "\u1E62\u0101dh\u0113", sound: "s", exampleWord: "\u0728\u0720\u0718\u072C\u0710", exampleWordEn: "prayer", emoji: "\uD83D\uDE4F" },
+  { letter: "\u0729", letterLower: "\u0729", name: "Q\u014Dp", sound: "q", exampleWord: "\u0729\u0720\u0710", exampleWordEn: "voice", emoji: "\uD83D\uDDE3\uFE0F" },
+  { letter: "\u072A", letterLower: "\u072A", name: "R\u0113sh", sound: "r", exampleWord: "\u072A\u072B\u0710", exampleWordEn: "head", emoji: "\uD83E\uDDE0" },
+  { letter: "\u072B", letterLower: "\u072B", name: "Sh\u012Bn", sound: "sh", exampleWord: "\u072B\u0721\u072B\u0710", exampleWordEn: "sun", emoji: "\u2600\uFE0F" },
+  { letter: "\u072C", letterLower: "\u072C", name: "T\u0101w", sound: "t", exampleWord: "\u072C\u0718\u072A\u0710", exampleWordEn: "bull", emoji: "\uD83D\uDC02" },
+];
+
 export function getAlphabet(locale: Locale): LetterData[] {
   switch (locale) {
     case "hy": return ARMENIAN_LETTERS;
     case "el": return GREEK_LETTERS;
     case "ar": return ARABIC_LETTERS;
+    case "syr": return SYRIAC_LETTERS;
   }
 }
 
@@ -128,6 +154,7 @@ if (__DEV__) {
     ["hy", ARMENIAN_LETTERS],
     ["el", GREEK_LETTERS],
     ["ar", ARABIC_LETTERS],
+    ["syr", SYRIAC_LETTERS],
   ] as const) {
     for (const l of letters) {
       const firstChar = stripAccent(l.exampleWord.charAt(0));
