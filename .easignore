@@ -1,0 +1,5 @@
+models/
+.git/
+node_modules/
+dist/
+.wrangler/
