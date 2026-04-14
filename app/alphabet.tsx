@@ -162,7 +162,6 @@ export default function AlphabetScreen() {
     if (index < 0 || index >= alphabet.length) return;
     flatListRef.current?.scrollToIndex({ index, animated: true });
     setCurrentIndex(index);
-    playSound("tap");
     recordLetterViewed(locale, alphabet[index].letter);
   };
 
@@ -200,7 +199,6 @@ export default function AlphabetScreen() {
             const index = Math.round(e.nativeEvent.contentOffset.x / SCREEN_WIDTH);
             if (index >= 0 && index < alphabet.length) {
               setCurrentIndex(index);
-              playSound("tap");
               recordLetterViewed(locale, alphabet[index].letter);
             }
           }}
