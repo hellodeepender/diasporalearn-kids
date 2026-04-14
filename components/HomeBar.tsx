@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingVertical: 6,
-    backgroundColor: "rgba(255,248,240,0.85)",
+    backgroundColor: "transparent",
   },
   btn: {
     width: 40,
