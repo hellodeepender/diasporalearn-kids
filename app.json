@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFF8F0"
       },
-      "package": "org.diasporalearn.kids"
+      "package": "org.diasporalearn.kids",
+      "versionCode": 2
     },
     "plugins": [
       "expo-router",
